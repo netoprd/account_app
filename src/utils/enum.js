@@ -10,3 +10,22 @@ export const transactionType = {
     RECALL: "Recall",
     RECEIPT: "Receipt"
 }
+
+export const source = [
+    {
+        id: "payroll_system",
+        name: 'Payroll System',
+    },
+    {
+        id: "journal",
+        name: 'Journal',
+    },
+    {
+        id: "sales_system",
+        name: 'Sales System',
+    },
+    {
+        id: "asset_mgt_system",
+        name: 'Asset Management System',
+    },
+]
