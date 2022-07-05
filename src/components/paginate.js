@@ -35,25 +35,7 @@ export default function Paginate({ pageCount, apiToCall, setData,doctype, limit,
         }
         else {
             const { data: { data } } = await apiToCall(currentPage, limit, "", loc || null, bus || null);
-            // if (window.location.pathname === "/orderlist") {
-            //     for (var value of data.values()) {
-            //         const responses = await api.Ordering.getById(value.id);
-            //         if (responses?.data?.issueNoteNo) {
-            //             const issueno = responses?.data?.issueNoteNo
-            //             const a = await api.Ordering.getDeliveryNote(issueno);
-            //             if (a.data) {
-            //                 value.edit = false
-            //             }
-            //             else {
-            //                 value.edit = true
-            //             }
-            //         } else {
-            //             value.edit = true
-            //         }
-            //     }
-            // }
             setData(data);
-
             window.scrollTo(0, 0)
         }
     };
