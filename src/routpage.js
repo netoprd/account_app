@@ -46,7 +46,8 @@ import Hello from './pages/hello'
 // import ListProductCategory from './pages/productcategory/listproductcategory'
 // import EditProductCategory from './pages/productcategory/editproductcategory'
 // import ViewProductCategory from './pages/productcategory/viewproductcategory'
-// import EditStockIssue from './pages/stockissue/editstockissue'
+// import EditStockIssue from './pages/stockissue/editstockissue
+
 
 
 
