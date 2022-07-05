@@ -51,12 +51,16 @@ export default function Navbar() {
                             <div className="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="transactions">
                                 <p className="mb-0 font-weight-normal float-left dropdown-header">Transactions</p>
                                 <a className="dropdown-item preview-item">
+<<<<<<< HEAD
                                     <NavLink to={"/transaction"} className="preview-item-content">
                                         <h6 className="preview-subject font-weight-normal">Transaction</h6>
                                     </NavLink>
                                 </a>
                                 <a className="dropdown-item preview-item">
                                     <NavLink to={"/listjournal"} className="preview-item-content">
+=======
+                                    <NavLink to={"/journal"} className="preview-item-content">
+>>>>>>> origin/Ayomide_Account-04Jul22
                                         <h6 className="preview-subject font-weight-normal">Journal</h6>
                                     </NavLink>
                                 </a>
