@@ -8,7 +8,11 @@ import CreateJournal from './pages/journal/createJournal'
 import EditJournal from './pages/journal/editJournal'
 import JournalList from './pages/journal/journalList'
 import ViewJournal from './pages/journal/viewJournal'
+import EditJournalDefinition from './pages/journaldefinition/editJournalDefinition'
 import JournalDefinition from './pages/journaldefinition/journalDefinition'
+import ListJournalDefination from './pages/journaldefinition/listJournalDefination'
+import ViewJournalDefinition from './pages/journaldefinition/viewJournalDefinition'
+import Transaction from './pages/transaction/transaction'
 import CreateTransaction from './pages/transaction/createtransaction'
 import ListTransactions from './pages/transaction/listtransactions'
 import ViewTransaction from './pages/transaction/viewtransactions'
@@ -27,6 +31,9 @@ export default function Routpage() {
         <Route path="/viewChartOfAccount" element={<ViewChartOfAccount />} />
         <Route path="/journaldefinition" element={<JournalDefinition />} />
         <Route path="/ChartOfAccount" element={<ChartOfAccount />} />
+        <Route path="/listjournaldef" element={<ListJournalDefination />} />
+        <Route path="/viewjournaldef/:id" element={<ViewJournalDefinition />} />
+        <Route path="/editjournaldef/:id" element={<EditJournalDefinition />} />
         <Route path="/listtransactions" element={<ListTransactions/>} />
         <Route path="/viewtransactions/:id" element={<ViewTransaction/>} />
 

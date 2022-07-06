@@ -35,7 +35,7 @@ export default function Navbar() {
                                 <p className="mb-0 font-weight-normal float-left dropdown-header">Setup</p>
 
                                 <a className="dropdown-item preview-item">
-                                    <NavLink to={"/journaldefinition"} className="preview-item-content">
+                                    <NavLink to={"/listjournaldef"} className="preview-item-content">
                                         <h6 className="preview-subject font-weight-normal">Journal Definition</h6>
                                     </NavLink>
                                 </a>
