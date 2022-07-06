@@ -2,8 +2,10 @@ import moment from 'moment';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { source } from '../../utils/enum';
+import Backbutton from '../../components/backbutton';
 
-export default function Transaction() {
+
+export default function CreateTransaction() {
     const { register, handleSubmit, formState: { errors }, reset, watch, trigger, control, setValue } = useForm({
         mode: "onChange",
         reValidateMode: 'onChange'
@@ -39,14 +41,19 @@ export default function Transaction() {
                                 {/* <img src="assets/images/logo-mini-1.png" /> */}
                                 {/* <span className="h6 d-none d-md-block">NETOP CONSULTING</span> */}
                             </div>
-                            <span className="card-title">TRANSACTION</span>
+                            <span className="card-title">CREATE TRANSACTION</span>
                             <span className="mr-5 d-none d-md-block"></span>
                         </div>
+                       
                         <button type="button" class="btn btn-primary btn-sm btn-icon-text text-white d-flex float-right">
                             <i className="ti-save mr-1" title="Submit"></i>
                             <span className="d-none d-md-block">SUBMIT</span>
                         </button>
-
+                        <span className='d-flex float-right'>
+                        <Backbutton/>
+                        </span>
+                     
+                       
                         <form className="row newReceiptNote mt-5">
                             <div className="form-group col-md-4">
                                 <label htmlFor="transactionRef">Transaction Ref
