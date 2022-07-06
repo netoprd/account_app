@@ -65,6 +65,11 @@ export default function Navbar() {
                                         <h6 className="preview-subject font-weight-normal">Journal</h6>
                                     </NavLink>
                                 </a>
+                                <a className="dropdown-item preview-item">
+                                    <NavLink to={"/listchartofaccount"} className="preview-item-content">
+                                        <h6 className="preview-subject font-weight-normal">Chart of Account</h6>
+                                    </NavLink>
+                                </a>
                             </div>
                         </li>
                         <li className="nav-item dropdown">
@@ -98,7 +103,7 @@ export default function Navbar() {
                                 </a>
                             </div>
                         </li>
-                       
+
                     </ul>
                     <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
                         <span className="icon-menu" />

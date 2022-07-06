@@ -10,6 +10,7 @@ export default function ChartOfAccount() {
     const history = useNavigate()
     const [loading, setloading] = useState(false);
     const [items, setItems] = useState({
+        accountCode: "",
         accountName: "",
         accountType: "",
         headerAccount: "",
@@ -71,6 +72,19 @@ export default function ChartOfAccount() {
 
 
                         <div className="form-group col-md-3">
+                            <label htmlFor="accountCode" className="float-left">Account Code<span className="text-danger">*</span>
+                                {errors.accountCode &&
+                                    <span className="text-danger">required</span>
+                                }
+                            </label>
+                            <input type="text" className="form-control"
+                                id="accountCode"
+                                name="accountCode"
+                                onChange={(e) => handleOnChange(e)}
+                                {...register("accountCode", { required: true })}
+                                placeholder="Account Code" />
+                        </div>
+                        <div className="form-group col-md-3">
                             <label htmlFor="accountName" className="float-left">Account Name<span className="text-danger">*</span>
                                 {errors.accountName &&
                                     <span className="text-danger">required</span>
@@ -97,13 +111,24 @@ export default function ChartOfAccount() {
                                 <option value="" >Select Account Type</option>
                                 <option value="asset" >Asset</option>
                                 <option value="liability" >Liability</option>
-                                <option value="equity" >Equity(Capital)</option>
+                                <option value="equity(capita)" >Equity(Capital)</option>
                                 <option value="revenue/expenditure" >Revenue/Expenditure</option>
                             </select>
                         </div>
-
                         <div className="form-group col-md-3">
-                            <label htmlFor="headerAccount" className="float-left">Header Account<span className="text-danger">*</span>
+                            <label htmlFor="isHeader" className="float-left">Is Header</label>
+                            <div className="custom-control custom-switch">
+                                <input type="checkbox"
+                                    className="custom-control-input"
+                                    id="isHeader"
+                                    name="isHeader"
+                                    {...register("isHeader", { onChange: (e) => handleOnChange(e) })}
+                                />
+                                <label className="custom-control-label float-left mt-4" htmlFor="isHeader"></label>
+                            </div>
+                        </div>
+                        <div className="form-group col-md-3">
+                            <label htmlFor="headerAccount" className="float-left">Header Account
                                 {errors.headerAccount &&
                                     <span className="text-danger">required</span>
                                 }
@@ -130,18 +155,6 @@ export default function ChartOfAccount() {
                                 onChange={(e) => handleOnChange(e)}
                                 {...register("balance", { required: true })}
                             />
-                        </div>
-                        <div className="form-group col-md-3">
-                            <label htmlFor="isHeader" className="float-left">Is Header</label>
-                            <div className="custom-control custom-switch">
-                                <input type="checkbox"
-                                    className="custom-control-input"
-                                    id="isHeader"
-                                    name="isHeader"
-                                    {...register("isHeader", { onChange: (e) => handleOnChange(e) })}
-                                />
-                                <label className="custom-control-label float-left mt-4" htmlFor="isHeader"></label>
-                            </div>
                         </div>
                     </form>
                 </div>

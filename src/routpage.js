@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import ChartOfAccount from './pages/chartofaccount/chartOfAccount'
 import EditChartOfAccount from './pages/chartofaccount/editChartOfAccount'
+import ListChartOfAccount from './pages/chartofaccount/listChartOfAccount'
 import ViewChartOfAccount from './pages/chartofaccount/viewChartOfAccount'
 import Hello from './pages/hello'
 import CreateJournal from './pages/journal/createJournal'
@@ -21,10 +22,11 @@ export default function Routpage() {
         <Route path="/listjournal" element={<JournalList />} />
         <Route path="/viewjournal/:id" element={<ViewJournal />} />
         <Route path="/editjournal/:id" element={<EditJournal />} />
-        <Route path="/editChartOfAccount" element={<EditChartOfAccount />} />
-        <Route path="/viewChartOfAccount" element={<ViewChartOfAccount />} />
+        <Route path="/editchartofaccount" element={<EditChartOfAccount />} />
+        <Route path="/viewchartofaccount" element={<ViewChartOfAccount />} />
         <Route path="/journaldefinition" element={<JournalDefinition />} />
-        <Route path="/ChartOfAccount" element={<ChartOfAccount />} />
+        <Route path="/createchartofaccount" element={<ChartOfAccount />} />
+        <Route path="/listchartofaccount" element={<ListChartOfAccount />} />
 
       </Routes>
     </>
