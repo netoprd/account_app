@@ -109,7 +109,7 @@ export default function ListJournalDefination() {
                                                     </td>
                                                     <td>
                                                         <div className="d-flex justify-content-between">
-                                                            <Link to={`/viewjournal/${detail.id}`}><i className="ti-eye btn-icon-append text-primary" title="view" /></Link>
+                                                            <Link to={`/viewjournaldef/${detail.id}`}><i className="ti-eye btn-icon-append text-primary" title="view" /></Link>
                                                             {!detail?.approvedBy && <>
                                                                 <Link to={`/editjournal/${detail.id}`}><i className="ti-pencil btn-icon-append text-success" title="Edit" /></Link>
                                                                 {/* <Link to={`/stockreceiptview/${detail?.id}`}><i className="ti-trash btn-icon-append text-danger" title="Delete" /></Link> */}
