@@ -13,7 +13,7 @@ import EditJournalDefinition from './pages/journaldefinition/editJournalDefiniti
 import JournalDefinition from './pages/journaldefinition/journalDefinition'
 import ListJournalDefination from './pages/journaldefinition/listJournalDefination'
 import ViewJournalDefinition from './pages/journaldefinition/viewJournalDefinition'
-import Transaction from './pages/transaction/transaction'
+// import Transaction from './pages/transaction/transaction'
 import CreateTransaction from './pages/transaction/createtransaction'
 import ListTransactions from './pages/transaction/listtransactions'
 import ViewTransaction from './pages/transaction/viewtransactions'
