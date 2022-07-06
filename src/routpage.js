@@ -13,13 +13,16 @@ import JournalDefinition from './pages/journaldefinition/journalDefinition'
 import ListJournalDefination from './pages/journaldefinition/listJournalDefination'
 import ViewJournalDefinition from './pages/journaldefinition/viewJournalDefinition'
 import Transaction from './pages/transaction/transaction'
+import CreateTransaction from './pages/transaction/createtransaction'
+import ListTransactions from './pages/transaction/listtransactions'
+import ViewTransaction from './pages/transaction/viewtransactions'
 
 export default function Routpage() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Hello />} />
-        <Route path="/transaction" element={<Transaction />} />
+        <Route path="/createtransaction" element={<CreateTransaction />} />
         <Route path="/createjournal" element={<CreateJournal />} />
         <Route path="/listjournal" element={<JournalList />} />
         <Route path="/viewjournal/:id" element={<ViewJournal />} />
@@ -31,7 +34,11 @@ export default function Routpage() {
         <Route path="/listjournaldef" element={<ListJournalDefination />} />
         <Route path="/viewjournaldef/:id" element={<ViewJournalDefinition />} />
         <Route path="/editjournaldef/:id" element={<EditJournalDefinition />} />
+        <Route path="/listtransactions" element={<ListTransactions/>} />
+        <Route path="/viewtransactions/:id" element={<ViewTransaction/>} />
 
+        
+        
       </Routes>
     </>
   )
