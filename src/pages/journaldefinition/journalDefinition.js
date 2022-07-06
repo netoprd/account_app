@@ -15,6 +15,7 @@ export default function JournalDefinition() {
         reValidateMode: 'onChange'
     });
 
+    const [loading, setLoading] = useState(false);
     const [journalDefinition, setJournalDefinition] = useState({
         id: 1,
         journalDescription: "",
@@ -140,14 +141,18 @@ export default function JournalDefinition() {
                             <span className="card-title">JOURNAL DEFINITION</span>
                             <span className="mr-5 d-none d-md-block"></span>
                         </div>
-                        <div className="d-flex align-items-right justify-content-between">
+                        <div className='d-flex float-right mt-2'>
                             <Backbutton />
-                            <button type="button" onClick={submitJournal}
-                                class="btn btn-primary btn-sm btn-icon-text text-white d-flex float-right">
+                            <button
+                                type="submit" onClick={handleSubmit(submitJournal)}
+                                class="btn btn-primary btn-sm btn-icon-text text-white d-flex mx-1"
+                                disabled={loading ? true : false}>
                                 <i className="ti-save mr-1" title="Submit"></i>
-                                <span className="d-none d-md-block">SUBMIT</span>
+                                <span className="d-none d-md-block"></span>
+                                {loading ? "SUBMITTING " : "SUBMIT"}
+                                {loading === true && <div className="spinner-border text-light spinner-grow-sm">
+                                </div>}
                             </button>
-
                         </div>
 
                         <form className="row newReceiptNote mt-5">

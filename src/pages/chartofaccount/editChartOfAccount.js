@@ -6,7 +6,7 @@ import Backbutton from '../../components/backbutton';
 import api from '../../utils/api';
 import { notifySuccess } from '../../utils/toast';
 
-export default function AccountChart() {
+export default function EditChartOfAccount() {
     const history = useNavigate()
     const [loading, setloading] = useState(false);
     const [items, setItems] = useState({
@@ -52,7 +52,7 @@ export default function AccountChart() {
             <div className="card mt-5">
                 <div className="card-body">
                     <div className="text-center">
-                        <span className="card-title">ACCOUNT CHART</span>
+                        <span className="card-title">EDIT ACCOUNT CHART</span>
                     </div>
                     <div className='d-flex float-right mt-2'>
                         <Backbutton />
