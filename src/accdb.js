@@ -12,7 +12,7 @@ db.transaction(function(tx) {
 }
 
  export function savechartofaccount(datatosave) {
-    initTables
+    initTables()
 
     db.transaction(function(tx) {
         tx.executeSql('INSERT INTO chartOfAccount(accountCode, accountName, accountType, isHeader, headerAccount, balance) VALUES (?,?,?,?,?,?)',[datatosave.accountCode, datatosave.accountName, datatosave.accountType, datatosave.isHeader, datatosave.headerAccount, datatosave.balance], function(tx, results) {
@@ -24,6 +24,6 @@ db.transaction(function(tx) {
 }
 
   const dbData = {
-    savechartofaccount 
+    // savechartofaccount 
   }
   export default dbData;

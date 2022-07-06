@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
+import { savechartofaccount } from '../../accdb';
 import Backbutton from '../../components/backbutton';
 import api from '../../utils/api';
 import { notifySuccess } from '../../utils/toast';
+//import accdb from '../../accdb'
 
 export default function ChartOfAccount() {
     const history = useNavigate()
@@ -22,6 +24,7 @@ export default function ChartOfAccount() {
         reValidateMode: 'onChange'
     });
 
+   
     const handleOnChange = (e) => {
         const { name, value, checked } = e.target
         setItems({
@@ -41,6 +44,8 @@ export default function ChartOfAccount() {
             // history("/userslist");
             // setloading(false);
             console.log("items", items)
+            savechartofaccount(items)
+            // accdb.savechartofaccount(items)
         }
         catch (error) {
             console.log(error)
