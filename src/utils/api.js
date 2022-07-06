@@ -102,10 +102,10 @@ const Auth = {
     requests.post(`auth/password/email`, { email })
 }
 
-// const StockBalances = {
-//   load: (page, limit, search) =>
-//     requests.get(`stockBalance/?page=${page}&limit=${limit}&search=${search}`)
-// }
+const StockBalances = {
+  load: (page, limit, search) =>
+    requests.get(`stockBalance/?page=${page}&limit=${limit}&search=${search}`)
+}
 
 // const User = {
 //   save: (data) =>
