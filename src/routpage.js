@@ -10,6 +10,7 @@ import JournalList from './pages/journal/journalList'
 import ViewJournal from './pages/journal/viewJournal'
 import JournalDefinition from './pages/journaldefinition/journalDefinition'
 import ListJournalDefination from './pages/journaldefinition/listJournalDefination'
+import ViewJournalDefinition from './pages/journaldefinition/viewJournalDefinition'
 import Transaction from './pages/transaction/transaction'
 
 export default function Routpage() {
@@ -27,6 +28,7 @@ export default function Routpage() {
         <Route path="/journaldefinition" element={<JournalDefinition />} />
         <Route path="/ChartOfAccount" element={<ChartOfAccount />} />
         <Route path="/listjournaldef" element={<ListJournalDefination />} />
+        <Route path="/viewjournaldef/:id" element={<ViewJournalDefinition />} />
 
       </Routes>
     </>
