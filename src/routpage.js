@@ -8,6 +8,7 @@ import CreateJournal from './pages/journal/createJournal'
 import EditJournal from './pages/journal/editJournal'
 import JournalList from './pages/journal/journalList'
 import ViewJournal from './pages/journal/viewJournal'
+import EditJournalDefinition from './pages/journaldefinition/editJournalDefinition'
 import JournalDefinition from './pages/journaldefinition/journalDefinition'
 import ListJournalDefination from './pages/journaldefinition/listJournalDefination'
 import ViewJournalDefinition from './pages/journaldefinition/viewJournalDefinition'
@@ -29,6 +30,7 @@ export default function Routpage() {
         <Route path="/ChartOfAccount" element={<ChartOfAccount />} />
         <Route path="/listjournaldef" element={<ListJournalDefination />} />
         <Route path="/viewjournaldef/:id" element={<ViewJournalDefinition />} />
+        <Route path="/editjournaldef/:id" element={<EditJournalDefinition />} />
 
       </Routes>
     </>
