@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
-import { savechartofaccount } from '../../accdb';
+import dbData from '../../accdb';
 import Backbutton from '../../components/backbutton';
 import api from '../../utils/api';
 import { accounts } from '../../utils/chartofaccountdemodata';
@@ -60,7 +60,8 @@ export default function ChartOfAccount() {
             // history("/userslist");
             // setloading(false);
             console.log("items", items)
-            savechartofaccount(items)
+            // savechartofaccount(items)
+            dbData.savechartofaccount(items)
             // accdb.savechartofaccount(items)
         }
         catch (error) {
