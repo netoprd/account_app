@@ -78,6 +78,8 @@ db.transaction(function(tx) {
         });
     }
 
+    
+
   const dbData = {
     savechartofaccount, 
     editChartOfAccount,
