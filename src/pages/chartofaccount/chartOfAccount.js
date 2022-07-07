@@ -21,6 +21,8 @@ export default function ChartOfAccount() {
         headerAccountCode: "",
         balance: 0,
         isHeader: false,
+        createdBy: "",
+        createdOn: ""
     });
     const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm({
         mode: "onChange",
@@ -52,6 +54,8 @@ export default function ChartOfAccount() {
 
     const save = async (items) => {
         try {
+            items.createdBy = "ayomide";
+            items.createdOn = "Tue Jul 06 2022 11:40:42 GMT+0100 (West Africa Standard Time)";
             // setloading(true);
             // const created = await api.User.save(items);
             // setloading(false)

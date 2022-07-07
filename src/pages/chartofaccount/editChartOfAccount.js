@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 import Backbutton from '../../components/backbutton';
 import api from '../../utils/api';
+import { accounts } from '../../utils/chartofaccountdemodata';
 import { notifySuccess } from '../../utils/toast';
 
 export default function EditChartOfAccount() {
@@ -18,6 +19,8 @@ export default function EditChartOfAccount() {
         headerAccountCode: "",
         balance: 0,
         isHeader: false,
+        createdBy: "",
+        createdOn: ""
     });
     const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm({
         mode: "onChange",
@@ -49,6 +52,8 @@ export default function EditChartOfAccount() {
 
     const save = async (itemToEdit) => {
         try {
+            itemToEdit.createdBy = "ayomide";
+            itemToEdit.createdOn = "Tue Jul 06 2022 11:40:42 GMT+0100 (West Africa Standard Time)";
             // setloading(true);
             // const created = await api.User.save(itemToEdit);
             // setloading(false)
