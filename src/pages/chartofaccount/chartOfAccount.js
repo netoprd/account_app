@@ -34,8 +34,6 @@ export default function ChartOfAccount() {
         const headerAccount = response?.data?.filter(x => x.isHeaderAccount);
         setHeaderAccounts(headerAccount)
     }, []);
-    console.log("data", headerAccounts)
-
 
     const handleOnChange = (e) => {
         const { name, value, checked } = e.target
@@ -154,7 +152,7 @@ export default function ChartOfAccount() {
                         </div>
                         <div className="form-group col-md-3">
                             <label htmlFor="headerAccountName" className="form-label float-left">Header Account
-                                {/* <span className='text-danger'>*</span> */}
+                                {!items.isHeader && <span className='text-danger'>*</span>}
                                 {errors.headerAccountName &&
                                     <span className="text-danger font-weight-bold"> required</span>}
                             </label>
@@ -163,7 +161,7 @@ export default function ChartOfAccount() {
                                     id="headerAccountName"
                                     name="headerAccountName"
                                     onChange={(e) => handleOnChange(e)}
-                                    {...register("headerAccountName", { required: true })}
+                                    {...register("headerAccountName", { required: items.isHeader ? false : true })}
                                     placeholder="Header Account" />
                                 <div
                                     style={{ cursor: 'pointer' }}
@@ -254,10 +252,10 @@ export default function ChartOfAccount() {
                                                                     {index + 1}
                                                                 </td>
                                                                 <td className="text-left">
-                                                                    <span className="text-uppercase">{header.accountCode}</span>
+                                                                    <span className="text-capitalize">{header.accountCode}</span>
                                                                 </td>
                                                                 <td className="text-left">
-                                                                    <span className="text-uppercase">{header.accountName}</span>
+                                                                    <span className="text-capitalize">{header.accountName}</span>
                                                                 </td>
                                                                 <td>
                                                                     <button

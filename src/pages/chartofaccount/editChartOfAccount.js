@@ -6,6 +6,7 @@ import Backbutton from '../../components/backbutton';
 import api from '../../utils/api';
 import { accounts } from '../../utils/chartofaccountdemodata';
 import { notifySuccess } from '../../utils/toast';
+import dbData from '../../accdb';
 
 export default function EditChartOfAccount() {
     const history = useNavigate()
@@ -26,14 +27,13 @@ export default function EditChartOfAccount() {
         mode: "onChange",
         reValidateMode: 'onChange'
     });
-
     useEffect(() => {
         const response = accounts;
         const headerAccount = response?.data?.filter(x => x.isHeaderAccount);
-        setHeaderAccounts(headerAccount)
+        setHeaderAccounts(headerAccount);
     }, []);
-    console.log("data", headerAccounts)
-
+    const getById = dbData.getchartofaccountbyId(5);
+    console.log({ getById })
 
     const handleOnChange = (e) => {
         const { name, value, checked } = e.target
@@ -251,10 +251,10 @@ export default function EditChartOfAccount() {
                                                                     {index + 1}
                                                                 </td>
                                                                 <td className="text-left">
-                                                                    <span className="text-uppercase">{header.accountCode}</span>
+                                                                    <span className="text-capitalize">{header.accountCode}</span>
                                                                 </td>
                                                                 <td className="text-left">
-                                                                    <span className="text-uppercase">{header.accountName}</span>
+                                                                    <span className="text-capitalize">{header.accountName}</span>
                                                                 </td>
                                                                 <td>
                                                                     <button
