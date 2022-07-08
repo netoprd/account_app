@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
+import dbData from '../../accdb';
 import Backbutton from '../../components/backbutton';
 import { formatter2 } from '../../utils/formatter';
 
@@ -139,6 +140,7 @@ export default function JournalDefinition() {
         }
         console.log({ payload })
         localStorage.setItem("journdef", JSON.stringify(payload));
+        dbData.savejournalDefinition(payload)
 
     }
     return (
