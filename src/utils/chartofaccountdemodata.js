@@ -8,7 +8,8 @@ export const accounts = {
             accountName: "payroll",
             accountType: "asset",
             isHeaderAccount: true,
-            headerAccount: "",
+            headerAccountCode: "",
+            headerAccountName: "",
             balance: 0
         },
         {
@@ -18,7 +19,8 @@ export const accounts = {
             accountName: "maintenance",
             accountType: "liability",
             isHeaderAccount: true,
-            headerAccount: "",
+            headerAccountCode: "",
+            headerAccountName: "",
             balance: 0
         },
         {
@@ -28,7 +30,8 @@ export const accounts = {
             accountName: "sales",
             accountType: "revenue",
             isHeaderAccount: true,
-            headerAccount: "",
+            headerAccountCode: "",
+            headerAccountName: "",
             balance: 0
         },
         {
@@ -38,17 +41,19 @@ export const accounts = {
             accountName: "admin",
             accountType: "liability",
             isHeaderAccount: true,
-            headerAccount: "0010",
+            headerAccountCode: "0010",
+            headerAccountName: "payroll",
             balance: 0
         },
         {
             createdBy: "",
             createdOn: "Tue Jul 07 2022 11:40:42 GMT+0100 (West Africa Standard Time)",
             accountCode: "00102",
-            accountName: "rnd",
+            accountName: "r'n'd",
             accountType: "liability",
             isHeaderAccount: true,
-            headerAccount: "0010",
+            headerAccountCode: "0010",
+            headerAccountName: "payroll",
             balance: 0
         },
         {
@@ -58,7 +63,8 @@ export const accounts = {
             accountName: "security",
             accountType: "liability",
             isHeaderAccount: false,
-            headerAccount: "0010",
+            headerAccountCode: "0010",
+            headerAccountName: "payroll",
             balance: 0
         },
         {
@@ -68,7 +74,8 @@ export const accounts = {
             accountName: "gen",
             accountType: "liability",
             isHeaderAccount: false,
-            headerAccount: "0011",
+            headerAccountCode: "0011",
+            headerAccountName: "maintenance",
             balance: 0
         },
         {
@@ -78,7 +85,8 @@ export const accounts = {
             accountName: "building",
             accountType: "liability",
             isHeaderAccount: true,
-            headerAccount: "0011",
+            headerAccountCode: "0011",
+            headerAccountName: "maintenance",
             balance: 0
         },
         {
@@ -88,7 +96,8 @@ export const accounts = {
             accountName: "offices",
             accountType: "liability",
             isHeaderAccount: false,
-            headerAccount: "00112",
+            headerAccountCode: "00112",
+            headerAccountName: "building",
             balance: 0
         },
     ]

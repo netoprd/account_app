@@ -5,26 +5,36 @@ import { useNavigate } from 'react-router-dom';
 import dbData from '../../accdb';
 import Backbutton from '../../components/backbutton';
 import api from '../../utils/api';
+import { accounts } from '../../utils/chartofaccountdemodata';
 import { notifySuccess } from '../../utils/toast';
 //import accdb from '../../accdb'
 
 export default function ChartOfAccount() {
     const history = useNavigate()
     const [loading, setloading] = useState(false);
+    const [headerAccounts, setHeaderAccounts] = useState([]);
     const [items, setItems] = useState({
         accountCode: "",
         accountName: "",
         accountType: "",
-        headerAccount: "",
+        headerAccountName: "",
+        headerAccountCode: "",
         balance: 0,
         isHeader: false,
+        createdBy: "",
+        createdOn: ""
     });
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm({
         mode: "onChange",
         reValidateMode: 'onChange'
     });
 
-   
+    useEffect(() => {
+        const response = accounts;
+        const headerAccount = response?.data?.filter(x => x.isHeaderAccount);
+        setHeaderAccounts(headerAccount)
+    }, []);
+
     const handleOnChange = (e) => {
         const { name, value, checked } = e.target
         setItems({
@@ -33,9 +43,17 @@ export default function ChartOfAccount() {
         })
     }
 
+    const selectHeaderAccount = (code) => {
+        const x = headerAccounts.find(y => y.accountCode === code)
+        setValue("headerAccountName", x?.accountName);
+        setValue("headerAccountCode", x?.accountCode);
+        console.log("items", items)
+    }
 
     const save = async (items) => {
         try {
+            items.createdBy = "ayomide";
+            items.createdOn = "Tue Jul 06 2022 11:40:42 GMT+0100 (West Africa Standard Time)";
             // setloading(true);
             // const created = await api.User.save(items);
             // setloading(false)
@@ -68,8 +86,7 @@ export default function ChartOfAccount() {
                             class="btn btn-primary btn-sm btn-icon-text text-white d-flex mx-1"
                             disabled={loading ? true : false}>
                             <i className="ti-save mr-1" title="Submit"></i>
-                            <span className="d-none d-md-block"></span>
-                            {loading ? "SUBMITTING " : "SUBMIT"}
+                            <span className="d-none d-md-block">{loading ? "SUBMITTING " : "SUBMIT"}</span>
                             {loading === true && <div className="spinner-border text-light spinner-grow-sm">
                             </div>}
                         </button>
@@ -134,18 +151,35 @@ export default function ChartOfAccount() {
                             </div>
                         </div>
                         <div className="form-group col-md-3">
-                            <label htmlFor="headerAccount" className="float-left">Header Account
-                                {errors.headerAccount &&
-                                    <span className="text-danger">required</span>
-                                }
+                            <label htmlFor="headerAccountName" className="form-label float-left">Header Account
+                                {!items.isHeader && <span className='text-danger'>*</span>}
+                                {errors.headerAccountName &&
+                                    <span className="text-danger font-weight-bold"> required</span>}
                             </label>
-                            <input type="text" className="form-control"
-                                id="headerAccount"
-                                name="headerAccount"
-                                placeholder="Header Account"
-                                onChange={(e) => handleOnChange(e)}
-                                {...register("headerAccount", { required: true, })}
-                            />
+                            <div className='input-group'>
+                                <input type="text" className="form-control text-capitalize"
+                                    id="headerAccountName"
+                                    name="headerAccountName"
+                                    onChange={(e) => handleOnChange(e)}
+                                    {...register("headerAccountName", { required: items.isHeader ? false : true })}
+                                    placeholder="Header Account" />
+                                <div
+                                    style={{ cursor: 'pointer' }}
+                                    class="input-group-prepend"
+                                    data-toggle="modal"
+                                    data-target="#participantsModal">
+                                    <span
+                                        className="input-group-text bg-primary text-light"
+                                        id="inputGroup-sizing-default"
+                                    >
+                                        <i
+                                            className={
+                                                "ti-plus"
+                                            }
+                                        ></i>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="form-group col-md-3">
@@ -163,6 +197,102 @@ export default function ChartOfAccount() {
                             />
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        {/* modal */}
+        <div class="modal fade" id="participantsModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h3 class="font-weight-bold text-center">SELECT HEADER ACCOUNT</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {/* <Limit setLimit={setLimit} /> */}
+                        <div className="row">
+                            <div className="form-group col-md-6 mx-auto">
+                                <input type="text"
+                                    // ref={searchPro}
+                                    className="form-control"
+                                    // onChange={(e) => handleSearchOnChange(e)}
+                                    placeholder="Search Header Account" />
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-12 grid-margin stretch-card">
+                                <div className="card">
+                                    <div className="card-body">
+                                        <div className="table-responsive">
+                                            <table className="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            S/N
+                                                        </th>
+                                                        <th className="text-left">
+                                                            ACCOUNT CODE
+                                                        </th>
+                                                        <th className="text-left">
+                                                            ACCOUNT NAME
+                                                        </th>
+                                                        <th>
+                                                            ACTIONS
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {headerAccounts && headerAccounts.length > 0 &&
+                                                        headerAccounts?.map((header, index) =>
+                                                            <tr key={header.productId} >
+                                                                <td >
+                                                                    {index + 1}
+                                                                </td>
+                                                                <td className="text-left">
+                                                                    <span className="text-capitalize">{header.accountCode}</span>
+                                                                </td>
+                                                                <td className="text-left">
+                                                                    <span className="text-capitalize">{header.accountName}</span>
+                                                                </td>
+                                                                <td>
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() => selectHeaderAccount(header.accountCode)}
+                                                                        class="btn btn-primary btn-sm text-white"
+                                                                        data-toggle="modal"
+                                                                        data-target="#participantsModal"
+                                                                    >
+                                                                        SELECT
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        )}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        {/* {
+                                            products?.length === 0 &&
+                                            <div className='row'>
+                                                <strong className='mx-auto mt-5 h3'>No Product Record</strong>
+                                            </div>
+                                        } */}
+                                    </div>
+                                    {/* {
+                                        productBalance.length !== 0 &&
+                                        <Paginate
+                                            limit={limit}
+                                            setData={setProductBalance}
+                                            apiToCall={api.BalanceAdjustment.loadProduct}
+                                            pageCount={pageCount}
+                                        />
+                                    } */}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
