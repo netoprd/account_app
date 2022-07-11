@@ -34,7 +34,7 @@ export default function EditJournalDefinition() {
     })
 
     useEffect(() => {
-        const response = dbData.getjuornaldiscriptionbyid(Number(id.id), setJournalDefinition)
+        const response = dbData.getjuornaldiscriptionbyid((id.id), setJournalDefinition)
         // const response = listJournalDef?.data
         // const res = response.find(y => y.id === Number(id.id))
         // setJournalDefinition(res)
