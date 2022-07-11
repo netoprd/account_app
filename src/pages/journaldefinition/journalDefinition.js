@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import dbData from '../../accdb';
 import Backbutton from '../../components/backbutton';
 import { formatter2 } from '../../utils/formatter';
+import { v4 as uuidv4 } from 'uuid';
 
 
 export default function JournalDefinition() {
@@ -19,6 +20,7 @@ export default function JournalDefinition() {
     const [loading, setLoading] = useState(false);
     let [showDate, setShowDate] = useState(false);
     const [journalDefinition, setJournalDefinition] = useState({
+        journalguid:uuidv4(),
         transactionRef: "",
         journalDescription: "",
         transactionDate: "",
@@ -85,6 +87,7 @@ export default function JournalDefinition() {
         const amo = getValues2("amount")
         const amount = parseFloat(amo ? amo.replace(/,/g, '') : 0);
         const journ = {
+            parentguid:journalDefinition.journalguid,
             accountCode: addJournalDefinitionDetails.accountCode,
             amount: amount,
             isCredited: addJournalDefinitionDetails.isCredited,
@@ -124,6 +127,7 @@ export default function JournalDefinition() {
 
     const submitJournal = () => {
         const payload = {
+            journalguid:journalDefinition.journalguid,
             approvedOn: "",
             approvedBy: "",
             createdBy: "Stephanie",
