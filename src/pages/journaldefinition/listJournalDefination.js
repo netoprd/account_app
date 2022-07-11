@@ -2,6 +2,7 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2';
+import dbData from '../../accdb';
 import Limit from '../../components/limit'
 import { listJournalDef } from '../../utils/listdemodef';
 
@@ -13,13 +14,14 @@ export default function ListJournalDefination() {
     const [search, setSearch] = useState("");
 
     useEffect(() => {
-        const response = listJournalDef
-        console.log(response?.data)
-        const count = response.totalCount;
-        setPageCount(Math.ceil(count / limit));
-        setJournal(response?.data)
+        const response = dbData.getalljuornaldiscription(setJournal)
+        // const response = listJournalDef
+        // console.log(response?.data)
+        // const count = response.totalCount;
+        // setPageCount(Math.ceil(count / limit));
+        // setJournal(response?.data)
     }, []);
-
+console.log({journal})
     const deleteJournal = (id) => {
         try {
             Swal.fire({
@@ -93,7 +95,7 @@ export default function ListJournalDefination() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {journal && journal?.length > 0 && journal?.map((detail, index) =>
+                                            {Object.values(journal)?.map((detail, index) =>
 
                                                 <tr className="text-uppercase" key={detail.id}>
                                                     <td>
@@ -109,9 +111,9 @@ export default function ListJournalDefination() {
                                                     </td>
                                                     <td>
                                                         <div className="d-flex justify-content-between">
-                                                            <Link to={`/viewjournaldef/${detail.id}`}><i className="ti-eye btn-icon-append text-primary" title="view" /></Link>
+                                                            <Link to={`/viewjournaldef/${detail.journalguid}`}><i className="ti-eye btn-icon-append text-primary" title="view" /></Link>
                                                             {!detail?.approvedBy && <>
-                                                                <Link to={`/editjournaldef/${detail.id}`}><i className="ti-pencil btn-icon-append text-success" title="Edit" /></Link>
+                                                                <Link to={`/editjournaldef/${detail.journalguid}`}><i className="ti-pencil btn-icon-append text-success" title="Edit" /></Link>
                                                                 {/* <Link to={`/stockreceiptview/${detail?.id}`}><i className="ti-trash btn-icon-append text-danger" title="Delete" /></Link> */}
                                                                 <i className="ti-trash btn-icon-append text-danger" onClick={() => deleteJournal(detail?.id)} title="Delete" />
                                                             </>}
