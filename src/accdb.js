@@ -105,6 +105,36 @@ const getchatofaccountbyId = function (id, callback) {
 }
 
 
+const getchatofaccountbyIsHeaderandHeadacc = function (callback) {
+  
+   db.transaction(function (tx) {
+      tx.executeSql(`Select * from chartOfAccount where isHeader = true and headerAccountName = ${''}`, [], function (tx, results) {
+         console.log("r" ,results.rows);
+         callback(results.rows)        
+      }, function (e, r) {
+      //   console.log({e});
+        callback('error:'+ e.message)
+     }   
+      );
+   });
+}
+
+
+const getchatofaccountbycode = function (accCode, callback) {
+  
+   db.transaction(function (tx) {
+      tx.executeSql(`Select * from chartOfAccount where accountCode = ${accCode}`, [], function (tx, results) {
+         console.log("r" ,results.rows);
+         callback(results.rows)        
+      }, function (e, r) {
+      //   console.log({e});
+        callback('error:'+ e.message)
+     }   
+      );
+   });
+}
+
+
   const savejournalDefinition = function(datatosave, callback){
       let parent;
       
@@ -174,6 +204,21 @@ const getchatofaccountbyId = function (id, callback) {
    });
  }
 
+ const getalljuornaldiscription = function (callback) {
+   var result = [];
+   db.transaction(function (tx) {
+      tx.executeSql(`Select * from journalDefinition LEFT JOIN journalDefinitionDetails ON journalDefinition.journalguid = journalDefinitionDetails.parentguid`, [], function (tx, results) {
+         console.log("r" ,results.rows);
+         callback(results.rows)        
+      }, function (e, r) {
+        console.log({e});
+        callback('error:'+ e.message)
+     }  );
+   });
+}
+
+
+
 
    
 
@@ -185,6 +230,9 @@ const getchatofaccountbyId = function (id, callback) {
     savejournalDefinition,
     getallchartofaccountwithoutheader,
     editjournalDefinition,
-    getjuornaldiscriptionbyid
+    getjuornaldiscriptionbyid,
+    getchatofaccountbyIsHeaderandHeadacc,
+    getchatofaccountbycode,
+    getalljuornaldiscription
   }
   export default dbData;
