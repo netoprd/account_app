@@ -193,12 +193,12 @@ const getchatofaccountbycode = function (accCode, callback) {
 
  const getjuornaldiscriptionbyid = function(id, callback){
    db.transaction(function (tx) {
-      tx.executeSql(`Select * from journalDefinition LEFT JOIN journalDefinitionDetails ON journalDefinition.journalguid = journalDefinitionDetails.parentguid  where journalguid = ${id}`, [], function (tx, results) {
+      tx.executeSql(`Select * from journalDefinition  where journalguid = ${id}`, [], function (tx, results) {
          console.log("r" ,results.rows);
          callback(results.rows)        
       }, function (e, r) {
       //   console.log({e});
-        callback('error:'+ e.message)
+        callback('error:'+ r.message)
      }   
       );
    });
@@ -207,7 +207,7 @@ const getchatofaccountbycode = function (accCode, callback) {
  const getalljuornaldiscription = function (callback) {
    var result = [];
    db.transaction(function (tx) {
-      tx.executeSql(`Select * from journalDefinition LEFT JOIN journalDefinitionDetails ON journalDefinition.journalguid = journalDefinitionDetails.parentguid`, [], function (tx, results) {
+      tx.executeSql(`Select * from journalDefinition`, [], function (tx, results) {
          console.log("r" ,results.rows);
          callback(results.rows)        
       }, function (e, r) {
