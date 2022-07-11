@@ -90,6 +90,19 @@ const getallchartofaccountwithoutheader = function (callback) {
    });
 }
 
+const getallchartofaccountIsheader = function (callback) {
+   var result = [];
+   db.transaction(function (tx) {
+      tx.executeSql(`Select * from chartOfAccount where isHeader = true`, [], function (tx, results) {
+         console.log("r" ,results.rows);
+         callback(results.rows)        
+      }, function (e, r) {
+        console.log({e});
+        callback('error:'+ e.message)
+     }  );
+   });
+}
+
 const getchatofaccountbyId = function (id, callback) {
   
    db.transaction(function (tx) {
@@ -233,6 +246,7 @@ const getchatofaccountbycode = function (accCode, callback) {
     getjuornaldiscriptionbyid,
     getchatofaccountbyIsHeaderandHeadacc,
     getchatofaccountbycode,
-    getalljuornaldiscription
+    getalljuornaldiscription,
+    getallchartofaccountIsheader
   }
   export default dbData;
