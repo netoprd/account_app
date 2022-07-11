@@ -85,7 +85,7 @@ export default function ChartOfAccount() {
             <div className="card mt-5">
                 <div className="card-body">
                     <div className="text-center">
-                        <span className="card-title">ACCOUNT CHART</span>
+                        <span className="card-title">CHART OF ACCOUNT</span>
                     </div>
                     <div className='d-flex float-right mt-2'>
                         <Backbutton />
@@ -169,7 +169,7 @@ export default function ChartOfAccount() {
                                     id="headerAccountName"
                                     name="headerAccountName"
                                     onChange={(e) => handleOnChange(e)}
-                                    {...register("headerAccountName", { required: items.isHeader ? false : true })}
+                                    {...register("headerAccountName", { required:  false })}
                                     placeholder="Header Account" />
                                 <div
                                     style={{ cursor: 'pointer' }}

@@ -6,6 +6,7 @@ import Paginate from '../../components/paginate';
 import Limit from '../../components/limit';
 import { accounts } from '../../utils/chartofaccountdemodata';
 import { formatter1 } from '../../utils/formatter';
+import dbData from '../../accdb';
 
 export default function ListChartOfAccount() {
 
@@ -18,12 +19,13 @@ export default function ListChartOfAccount() {
     const [search, setSearch] = useState("");
 
     useEffect(() => {
-        const response = accounts
-        const count = response.totalCount;
-        setPageCount(Math.ceil(count / limit));
-        setChartOfAccount(response?.data)
+        const response = dbData.getchatofaccountbyId(1,setChartOfAccount)
+        // const count = response.totalCount;
+        // setPageCount(Math.ceil(count / limit));
+        // setChartOfAccount(response?.data)
         // console.log("data", response?.data)
     }, []);
+    console.log({chartOfAccount})
     const headerAccount = chartOfAccount?.filter(x => x.isHeaderAccount && x.headerAccount === "");
     // console.log({ headerAccount })
 
@@ -95,7 +97,43 @@ export default function ListChartOfAccount() {
                                         </div>
                                     </div>
                                 </form>
-                                <div class="accordion" id="accordionExample">
+                                <div className="accordion" id="accordionExample">
+                                    {chartOfAccount && chartOfAccount?.length > 0 && chartOfAccount?.map((header, index) =>
+                                        <div className="card">
+                                            <div className="card-header" id="headingOne">
+                                                <h2 className="mb-0">
+                                                    <button className="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target={`#${header.accountName}`} aria-expanded="true" aria-controls={header.accountName}>
+                                                        {header.accountName}
+                                                    </button>
+                                                </h2>
+                                            </div>
+                                            <div id={header.accountName} className="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+
+                                                {chartOfAccount && chartOfAccount?.length > 0 && chartOfAccount?.map((header, index) =>
+                                                    <>
+                                                        <div className="card-header" id="headingOne">
+                                                            <h2 className="mb-0">
+                                                                <button className="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target={`#y${header.accountName}`} aria-expanded="true" aria-controls={`y${header.accountName}`}>
+                                                                    {header.accountName}
+                                                                </button>
+                                                            </h2>
+                                                        </div>
+                                                        <div id={`y${header.accountName}`} className="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                                            <div className="card-body">
+                                                                {header.accountName}
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                )}
+                                                <div className="card-body">
+                                                    {header.accountName}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    )}
+                                </div>
+                                {/* <div class="accordion" id="accordionExample">
                                     {headerAccount && headerAccount?.length > 0 && headerAccount?.map((header, index) =>
                                         <div class="card">
                                             <div class="card-header py-2" id={`heading${header.accountName}`}>
@@ -104,7 +142,6 @@ export default function ListChartOfAccount() {
                                                         onClick={() => filterChartAccount(header.accountCode)}
                                                         type="button" data-toggle="collapse" data-target={`#collapse${header.accountName}`} aria-expanded="true" aria-controls={`collapse${header.accountName}`}>
                                                         <span className="text-capitalize">{header.accountName} ({header.accountCode})</span>
-                                                        {/* <span className="text-capitalize">{header.accountType}</span> */}
                                                         <span className="text-capitalize">&#8358; {formatter1.format(header.balance)}</span>
                                                     </button>
                                                 </h2>
@@ -121,7 +158,6 @@ export default function ListChartOfAccount() {
                                                                             onClick={() => filterChartAccount(header.accountCode)}
                                                                             type="button" data-toggle="collapse" data-target={`#collapse${header.accountName}`} aria-expanded="true" aria-controls={`collapse${header.accountName}`}>
                                                                             <span className="text-capitalize">{header.accountName} ({header.accountCode})</span>
-                                                                            {/* <span className="text-capitalize">{header.accountType}</span> */}
                                                                             <span className="text-capitalize">&#8358; {formatter1.format(header.balance)}</span>
                                                                         </button>
                                                                     </h2>
@@ -238,6 +274,8 @@ export default function ListChartOfAccount() {
                                             </div>
                                         </div>
                                     )}
+
+
                                 </div>
                                 <div className="table-responsive">
                                     <table className="table table-striped">
@@ -287,7 +325,7 @@ export default function ListChartOfAccount() {
                                             )}
                                         </tbody>
                                     </table>
-                                </div>
+                                </div> */}
 
                             </div>
                         </div>
