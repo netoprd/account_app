@@ -88,6 +88,7 @@ const history = useNavigate()
         const amo = getValues2("amount")
         const amount = parseFloat(amo ? amo.replace(/,/g, '') : 0);
         const journ = {
+            sn:addJournalDefinitionDetails.sn? addJournalDefinitionDetails.sn:journalDefinitionDetails.length +1,
             parentguid:journalDefinition.journalguid,
             accountCode: addJournalDefinitionDetails.accountCode,
             amount: amount,
