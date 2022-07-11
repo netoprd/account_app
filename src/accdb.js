@@ -204,6 +204,21 @@ const getchatofaccountbycode = function (accCode, callback) {
    });
  }
 
+ const getalljuornaldiscription = function (callback) {
+   var result = [];
+   db.transaction(function (tx) {
+      tx.executeSql(`Select * from journalDefinition LEFT JOIN journalDefinitionDetails ON journalDefinition.journalguid = journalDefinitionDetails.parentguid`, [], function (tx, results) {
+         console.log("r" ,results.rows);
+         callback(results.rows)        
+      }, function (e, r) {
+        console.log({e});
+        callback('error:'+ e.message)
+     }  );
+   });
+}
+
+
+
 
    
 
@@ -217,6 +232,7 @@ const getchatofaccountbycode = function (accCode, callback) {
     editjournalDefinition,
     getjuornaldiscriptionbyid,
     getchatofaccountbyIsHeaderandHeadacc,
-    getchatofaccountbycode
+    getchatofaccountbycode,
+    getalljuornaldiscription
   }
   export default dbData;
