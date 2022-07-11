@@ -140,7 +140,14 @@ export default function JournalDefinition() {
         }
         console.log({ payload })
         localStorage.setItem("journdef", JSON.stringify(payload));
-        dbData.savejournalDefinition(payload)
+        dbData.savejournalDefinition(payload, callback)
+        function callback(r){
+            if (r === 'success') {
+                alert('Journal defination created')//remove all alert and add toaster:  NOTE DUE TO THE NATURE OF THE DB THE SUCCESS ALERT MIGHT COME SEVERAL TIMES. PLEASE HANDLE THE ISSUE OR LET ME KNOW IF YOU CANT
+            }else{
+                alert(r)//REMOVE THE ALERT AND ADD THE TOASTER
+            }
+        }
 
     }
     return (

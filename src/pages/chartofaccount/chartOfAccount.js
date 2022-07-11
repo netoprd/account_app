@@ -61,10 +61,18 @@ export default function ChartOfAccount() {
             // notifySuccess(created.sucessMessage);
             // history("/userslist");
             // setloading(false);
-            console.log("items", items)
-            // savechartofaccount(items)
-            dbData.savechartofaccount(items)
-            // accdb.savechartofaccount(items)
+            //console.log("items", items)
+           const db = dbData.savechartofaccount(items, callback)
+            function callback(r){
+                if (r === 'success') {
+                    alert('Chart of account created')//remove alert and add toaster:
+                }else if(r === 'duplicate'){
+                    alert('duplicate')
+                }else{
+                    alert(r)//REMOVE THE ALERT AND ADD THE TOASTER
+                }
+            }
+          
         }
         catch (error) {
             console.log(error)

@@ -28,7 +28,7 @@ export default function Routpage() {
         <Route path="/listjournal" element={<JournalList />} />
         <Route path="/viewjournal/:id" element={<ViewJournal />} />
         <Route path="/editjournal/:id" element={<EditJournal />} />
-        <Route path="/editchartofaccount" element={<EditChartOfAccount />} />
+        <Route path="/editchartofaccount/:id" element={<EditChartOfAccount />} />
         <Route path="/viewchartofaccount" element={<ViewChartOfAccount />} />
         <Route path="/journaldefinition" element={<JournalDefinition />} />
         {/* <Route path="/ChartOfAccount" element={<ChartOfAccount />} /> */}

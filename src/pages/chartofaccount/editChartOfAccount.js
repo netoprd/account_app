@@ -32,8 +32,11 @@ export default function EditChartOfAccount() {
         const headerAccount = response?.data?.filter(x => x.isHeaderAccount);
         setHeaderAccounts(headerAccount);
     }, []);
-    const getById = dbData.getchartofaccountbyId(5);
-    console.log({ getById })
+    const getById = dbData.getchatofaccountbyId(2, callback);
+    function callback(r){
+        console.log({ r })
+    }
+   
 
     const handleOnChange = (e) => {
         const { name, value, checked } = e.target
