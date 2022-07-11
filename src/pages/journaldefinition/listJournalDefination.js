@@ -21,7 +21,7 @@ export default function ListJournalDefination() {
         // setPageCount(Math.ceil(count / limit));
         // setJournal(response?.data)
     }, []);
-console.log({journal})
+    console.log({ journal })
     const deleteJournal = (id) => {
         try {
             Swal.fire({
@@ -51,9 +51,9 @@ console.log({journal})
         }
     }
 
-  return (
-    <>
-                <div className="content-wrapper mt-5">
+    return (
+        <>
+            <div className="content-wrapper mt-5">
                 <div className="row">
                     <div className="col-md-12 grid-margin stretch-card">
                         <div className="card">
@@ -75,9 +75,9 @@ console.log({journal})
                                 <form className="mt-3">
                                     <div className="form-group col-md-6 mx-auto mt-3">
                                         <div className="input-group">
-                                            <input type="text" className="form-control form-control-sm" placeholder="Search Journal" aria-label="Recipient's username" 
+                                            <input type="text" className="form-control form-control-sm" placeholder="Search Journal" aria-label="Recipient's username"
                                             // onChange={e => searchAdj(e.target.value)}
-                                             />
+                                            />
                                         </div>
                                     </div>
                                 </form>
@@ -95,7 +95,7 @@ console.log({journal})
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {Object.values(journal)?.map((detail, index) =>
+                                            {Object.values(journal).length > 0 && Object.values(journal)?.map((detail, index) =>
 
                                                 <tr className="text-uppercase" key={detail.id}>
                                                     <td>
@@ -145,6 +145,6 @@ console.log({journal})
                 </div>
             </div>
 
-    </>
-  )
+        </>
+    )
 }

@@ -207,7 +207,7 @@ const getchatofaccountbycode = function (accCode, callback) {
  const getjuornaldiscriptionbyid = function(guid, callback){
    db.transaction(function (tx) {
       tx.executeSql(`Select * from journalDefinition where journalguid = ${guid}`, [], function (tx, results) {
-         console.log("r" ,results.rows[0]);
+         console.log("r" ,results.rows);
          callback(results.rows)        
       }, function (e, r) {
       //   console.log({e});
