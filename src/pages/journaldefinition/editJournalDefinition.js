@@ -2,6 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
+import dbData from '../../accdb';
 import Backbutton from '../../components/backbutton';
 import { formatter2 } from '../../utils/formatter';
 import { listJournalDef } from '../../utils/listdemodef';
@@ -33,11 +34,12 @@ export default function EditJournalDefinition() {
     })
 
     useEffect(() => {
-        const response = listJournalDef?.data
-        const res = response.find(y => y.id === Number(id.id))
-        setJournalDefinition(res)
-        setJournalDefinitionDetails(res?.journalDefinitionDetails)
-        console.log({ res })
+        const response = dbData.getjuornaldiscriptionbyid((id.id), setJournalDefinition)
+        // const response = listJournalDef?.data
+        // const res = response.find(y => y.id === Number(id.id))
+        // setJournalDefinition(res)
+        // setJournalDefinitionDetails(res?.journalDefinitionDetails)
+        console.log({ journalDefinition })
     }, []);
 
 

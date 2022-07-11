@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import dbData from '../../accdb';
 import Backbutton from '../../components/backbutton';
 import { formatter2 } from '../../utils/formatter';
+import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router';
 
 
 export default function JournalDefinition() {
@@ -15,10 +17,11 @@ export default function JournalDefinition() {
         mode: "onChange",
         reValidateMode: 'onChange'
     });
-
+const history = useNavigate()
     const [loading, setLoading] = useState(false);
     let [showDate, setShowDate] = useState(false);
     const [journalDefinition, setJournalDefinition] = useState({
+        journalguid:uuidv4(),
         transactionRef: "",
         journalDescription: "",
         transactionDate: "",
@@ -85,6 +88,8 @@ export default function JournalDefinition() {
         const amo = getValues2("amount")
         const amount = parseFloat(amo ? amo.replace(/,/g, '') : 0);
         const journ = {
+            sn:addJournalDefinitionDetails.sn? addJournalDefinitionDetails.sn:journalDefinitionDetails.length +1,
+            parentguid:journalDefinition.journalguid,
             accountCode: addJournalDefinitionDetails.accountCode,
             amount: amount,
             isCredited: addJournalDefinitionDetails.isCredited,
@@ -124,6 +129,7 @@ export default function JournalDefinition() {
 
     const submitJournal = () => {
         const payload = {
+            journalguid:journalDefinition.journalguid,
             approvedOn: "",
             approvedBy: "",
             createdBy: "Stephanie",
@@ -143,6 +149,7 @@ export default function JournalDefinition() {
         dbData.savejournalDefinition(payload, callback)
         function callback(r){
             if (r === 'success') {
+                history("/listjournaldef")
                 alert('Journal defination created')//remove all alert and add toaster:  NOTE DUE TO THE NATURE OF THE DB THE SUCCESS ALERT MIGHT COME SEVERAL TIMES. PLEASE HANDLE THE ISSUE OR LET ME KNOW IF YOU CANT
             }else{
                 alert(r)//REMOVE THE ALERT AND ADD THE TOASTER
