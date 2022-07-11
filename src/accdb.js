@@ -105,6 +105,36 @@ const getchatofaccountbyId = function (id, callback) {
 }
 
 
+const getchatofaccountbyIsHeaderandHeadacc = function (callback) {
+  
+   db.transaction(function (tx) {
+      tx.executeSql(`Select * from chartOfAccount where isHeader = true and headerAccountName = ${''}`, [], function (tx, results) {
+         console.log("r" ,results.rows);
+         callback(results.rows)        
+      }, function (e, r) {
+      //   console.log({e});
+        callback('error:'+ e.message)
+     }   
+      );
+   });
+}
+
+
+const getchatofaccountbycode = function (accCode, callback) {
+  
+   db.transaction(function (tx) {
+      tx.executeSql(`Select * from chartOfAccount where accountCode = ${accCode}`, [], function (tx, results) {
+         console.log("r" ,results.rows);
+         callback(results.rows)        
+      }, function (e, r) {
+      //   console.log({e});
+        callback('error:'+ e.message)
+     }   
+      );
+   });
+}
+
+
   const savejournalDefinition = function(datatosave, callback){
       let parent;
       
@@ -185,6 +215,8 @@ const getchatofaccountbyId = function (id, callback) {
     savejournalDefinition,
     getallchartofaccountwithoutheader,
     editjournalDefinition,
-    getjuornaldiscriptionbyid
+    getjuornaldiscriptionbyid,
+    getchatofaccountbyIsHeaderandHeadacc,
+    getchatofaccountbycode
   }
   export default dbData;
