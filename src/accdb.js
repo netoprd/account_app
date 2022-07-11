@@ -211,7 +211,7 @@ const getchatofaccountbycode = function (accCode, callback) {
          callback(results.rows)        
       }, function (e, r) {
       //   console.log({e});
-        callback('error:'+ e.message)
+        callback('error:'+ r.message)
      }   
       );
    });
