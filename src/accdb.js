@@ -419,6 +419,7 @@ const dbData = {
    getalljuornaldiscription,
    getallchartofaccountIsheader,
    createjournal,
-   getalljuornal
+   getalljuornal,
+   getjuornalbyid
 }
 export default dbData;
