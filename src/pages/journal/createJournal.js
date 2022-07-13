@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
 import dbData from '../../accdb';
 import Backbutton from '../../components/backbutton';
 import { source } from '../../utils/enum';
@@ -9,6 +10,7 @@ import { journalDefinition } from '../../utils/journaldefinationdemo';
 
 
 export default function CreateJournal() {
+    const history = useNavigate()
     const { register, handleSubmit, formState: { errors }, reset, watch, trigger, control, setValue } = useForm({
         mode: "onChange",
         reValidateMode: 'onChange'
