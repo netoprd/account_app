@@ -12,6 +12,7 @@ export default function ListJournalDefination() {
     const page = 1;
     const [limit, setLimit] = useState(15);
     const [search, setSearch] = useState("");
+    const [deleteList, setDeleteList] = useState("");
 
     useEffect(() => {
         const response = dbData.getalljuornaldiscription(setJournal)
