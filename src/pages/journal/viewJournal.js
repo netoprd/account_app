@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { source } from '../../utils/enum';
 import { journals } from '../../utils/journaldemodata';
 import { formatter2 } from '../../utils/formatter';
+import dbData from '../../accdb';
 
 export default function ViewJournal() {
     const id = useParams()
@@ -13,10 +14,10 @@ export default function ViewJournal() {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        const response = journals?.data
-        const res = response.find(y => y.id === Number(id.id))
-        setJournal(res)
-        console.log({ res })
+        const response = dbData.getjuornalbyid(Number(id.id), setJournal)
+        // const res = response.find(y => y.id === Number(id.id))
+        // setJournal(res)
+        // console.log({ res })
     }, []);
 
     const approve = () => {
