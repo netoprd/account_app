@@ -11,21 +11,25 @@ import dbData from '../../accdb';
 export default function ListChartOfAccount() {
 
     const [chartOfAccount, setChartOfAccount] = useState([]);
+    const [firstChart, setFirstChart] = useState();
     const [headerChild, setHeaderChild] = useState([]);
     const [accheaderChild, setAccheaderChild] = useState([]);
+    const [accheaderChild1, setAccheaderChild1] = useState();
     const [pageCount, setPageCount] = useState(0);
     const page = 1;
     const [limit, setLimit] = useState(15);
     const [search, setSearch] = useState("");
 
     useEffect(() => {
-        const response = dbData.getchatofaccountbyId(1,setChartOfAccount)
+        const response = dbData.getchatofaccountbyIsHeaderandHeadacc(setFirstChart);
         // const count = response.totalCount;
         // setPageCount(Math.ceil(count / limit));
         // setChartOfAccount(response?.data)
         // console.log("data", response?.data)
     }, []);
-    console.log({chartOfAccount})
+    setTimeout(() => {
+        setChartOfAccount(Object.values(firstChart))
+    }, 1000);
     const headerAccount = chartOfAccount?.filter(x => x.isHeaderAccount && x.headerAccount === "");
     // console.log({ headerAccount })
 
@@ -66,6 +70,12 @@ export default function ListChartOfAccount() {
             console.log(error)
         }
     }
+    const getAccountChildren = (code) => {
+        const response = dbData.getchatofaccountbycode(code, setAccheaderChild1);
+        // setTimeout(() => {
+        setAccheaderChild(Object.values(accheaderChild1))
+        // }, 1);
+    }
 
     return (
         <>
@@ -100,37 +110,33 @@ export default function ListChartOfAccount() {
                                 <div className="accordion" id="accordionExample">
                                     {chartOfAccount && chartOfAccount?.length > 0 && chartOfAccount?.map((header, index) =>
                                         <div className="card">
-                                            <div className="card-header" id="headingOne">
+                                            <div className="card-header">
                                                 <h2 className="mb-0">
-                                                    <button className="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target={`#${header.accountName}`} aria-expanded="true" aria-controls={header.accountName}>
+                                                    <button onClick={() => getAccountChildren(header.accountCode)} className="btn btn-block text-left" data-toggle="collapse" href={`#${header.accountName}`} >
                                                         {header.accountName}
                                                     </button>
                                                 </h2>
                                             </div>
-                                            <div id={header.accountName} className="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                            {/* <div id={header.accountName} className="card-header collapse"> */}
 
-                                                {chartOfAccount && chartOfAccount?.length > 0 && chartOfAccount?.map((header, index) =>
-                                                    <>
-                                                        <div className="card-header" id="headingOne">
-                                                            <h2 className="mb-0">
-                                                                <button className="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target={`#y${header.accountName}`} aria-expanded="true" aria-controls={`y${header.accountName}`}>
-                                                                    {header.accountName}
-                                                                </button>
-                                                            </h2>
-                                                        </div>
-                                                        <div id={`y${header.accountName}`} className="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                                            <div className="card-body">
-                                                                {header.accountName}
-                                                            </div>
-                                                        </div>
-                                                    </>
+                                                {accheaderChild && accheaderChild?.length > 0 && accheaderChild[0].headerAccountCode === header.accountCode && accheaderChild?.map((acc, index) =>
+                                                    <div id={header.accountName} className="card-header collapse">
+                                                        {
+                                                            acc.isHeader === "true" ?
+                                                                <h2 className="mb-0">
+                                                                    <button onClick={() => getAccountChildren(acc.accountCode)} className="btn btn-block text-left" >
+                                                                        {acc.accountName}
+                                                                    </button>
+                                                                </h2>
+                                                                :
+                                                                <div className="card-body">
+                                                                    {acc.accountName}
+                                                                </div>
+                                                        }
+                                                    </div>
                                                 )}
-                                                <div className="card-body">
-                                                    {header.accountName}
-                                                </div>
                                             </div>
-
-                                        </div>
+                                        // </div>
                                     )}
                                 </div>
                                 {/* <div class="accordion" id="accordionExample">

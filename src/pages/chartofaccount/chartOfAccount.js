@@ -13,6 +13,7 @@ export default function ChartOfAccount() {
     const history = useNavigate()
     const [loading, setloading] = useState(false);
     const [headerAccounts, setHeaderAccounts] = useState([]);
+    const [tess, setTess] = useState([]);
     const [items, setItems] = useState({
         accountCode: "",
         accountName: "",
@@ -30,11 +31,13 @@ export default function ChartOfAccount() {
     });
 
     useEffect(() => {
-        const response = accounts;
-        const headerAccount = response?.data?.filter(x => x.isHeaderAccount);
-        setHeaderAccounts(headerAccount)
+        const response = dbData.getallchartofaccountIsheader(setTess);
+        // const headerAccount = response?.data?.filter(x => x.isHeaderAccount);
+        // setHeaderAccounts(headerAccount)
     }, []);
-
+    setTimeout(() => {
+        setHeaderAccounts(Object.values(tess))
+    }, 1000);
     const handleOnChange = (e) => {
         const { name, value, checked } = e.target
         setItems({
@@ -62,17 +65,33 @@ export default function ChartOfAccount() {
             // history("/userslist");
             // setloading(false);
             //console.log("items", items)
-           const db = dbData.savechartofaccount(items, callback)
-            function callback(r){
-                if (r === 'success') {
-                    alert('Chart of account created')//remove alert and add toaster:
-                }else if(r === 'duplicate'){
-                    alert('duplicate')
-                }else{
-                    alert(r)//REMOVE THE ALERT AND ADD THE TOASTER
+            let code = headerAccounts.find(x => x.accountName === items.headerAccountName);
+            if (code) {
+                items.headerAccountCode = code.accountCode
+                const db = dbData.savechartofaccount(items, callback)
+                function callback(r) {
+                    if (r === 'success') {
+                        alert('Chart of account created')//remove alert and add toaster:
+                    } else if (r === 'duplicate') {
+                        alert('duplicate')
+                    } else {
+                        alert(r)//REMOVE THE ALERT AND ADD THE TOASTER
+                    }
+                }
+            } else {
+                const db = dbData.savechartofaccount(items, callback)
+                function callback(r) {
+                    if (r === 'success') {
+                        alert('Chart of account created')//remove alert and add toaster:
+                    } else if (r === 'duplicate') {
+                        alert('duplicate')
+                    } else {
+                        alert(r)//REMOVE THE ALERT AND ADD THE TOASTER
+                    }
                 }
             }
-          
+
+
         }
         catch (error) {
             console.log(error)
@@ -164,7 +183,18 @@ export default function ChartOfAccount() {
                                 {errors.headerAccountName &&
                                     <span className="text-danger font-weight-bold"> required</span>}
                             </label>
-                            <div className='input-group'>
+                            <select className="form-control"
+                                type="text"
+                                id="headerAccountName"
+                                name="headerAccountName"
+                                {...register("headerAccountName", { required: false, onChange: (e) => handleOnChange(e) })}
+                            >
+                                <option value="" ></option>
+                                {headerAccounts && Object.values(headerAccounts)?.length > 0 && Object.values(headerAccounts)?.map(header =>
+                                    <option value={header.accountName} >{header.accountName}</option>
+                                )}
+                            </select>
+                            {/* <div className='input-group'>
                                 <input type="text" className="form-control text-capitalize"
                                     id="headerAccountName"
                                     name="headerAccountName"
@@ -187,7 +217,7 @@ export default function ChartOfAccount() {
                                         ></i>
                                     </span>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className="form-group col-md-3">
