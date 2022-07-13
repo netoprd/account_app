@@ -174,10 +174,6 @@ const savejournalDefinition = function (datatosave, callback) {
          })
       }
    });
-
-
-
-
 }
 
 const editjournalDefinition = function (id, datatosave, callback) {
@@ -211,26 +207,6 @@ const getjuornaldiscriptionbyid = function (guid, callback) {
       journalDefinitionDetails:[]
    }
   
-   // db.transaction(function (tx) {
-   //    tx.executeSql('Select *' + 'from journalDefinition j ' +' where journalguid =?', [guid], function (tx, results) {
-   //       journalDefinition = results.rows
-   //      // console.log("rrr", journalDefinition);
-   //      // callback(results.rows)
-   //       tx.executeSql('Select * from journalDefinitionDetails where parentguid =?', [guid], function(e, r){
-   //          if (r.rows.length > 0) {
-   //             journalDefinition.journalDefinitionDetails = r.rows
-   //          }           
-   //          callback(journalDefinition)
-   //          //console.log('child ', journalDefinition)
-   //       })
-   //    }, function (e, r) {
-   //       //   console.log({e});
-   //       callback('error:' + r.message)
-   //    }
-   //    );
-   // });
-
-
    db.transaction(function (tx) {
       tx.executeSql('Select * ' + 'from journalDefinition j ' + 'INNER JOIN journalDefinitionDetails jd on j.journalguid = jd.parentguid '+' where journalguid =?', [guid], function (tx, results) {
          console.log("r", results.rows);
@@ -401,6 +377,24 @@ const getjuornalbyid = function(id, callback){
 }
 
 
+const deletejournaldefination = function(id, callback){
+   db.transaction(function(tx) {
+      tx.executeSql("DELETE FROM journalDefinition WHERE journalguid = ?", [id], function(tx, re){
+         if (re.rowsAffected === 1) {
+            tx.executeSql("DELETE FROM journalDefinitionDetails WHERE parentguid = ?", [id], function(tx, re){
+               if (re.rowsAffected === 1) {
+                  callback('deleted one line item')    
+               }      
+            })
+         }
+
+      },function(r, e){
+         callback('error:' + e.message)
+      });
+  });
+}
+
+
 
 
 
@@ -420,6 +414,7 @@ const dbData = {
    getallchartofaccountIsheader,
    createjournal,
    getalljuornal,
-   getjuornalbyid
+   getjuornalbyid,
+   deletejournaldefination
 }
 export default dbData;
