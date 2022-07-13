@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import Paginate from '../../components/paginate';
 import Limit from '../../components/limit';
 import { journals } from '../../utils/journaldemodata';
+import dbData from '../../accdb';
 
 function JournalList() {
     const [journal, setJournal] = useState([]);
@@ -16,11 +17,11 @@ function JournalList() {
     const [search, setSearch] = useState("");
 
     useEffect(() => {
-        const response = journals
-        console.log(response?.data)
-        const count = response.totalCount;
-        setPageCount(Math.ceil(count / limit));
-        setJournal(response?.data)
+        const response = dbData.getalljuornal(setJournal)
+        // console.log(response?.data)
+        // const count = response.totalCount;
+        // setPageCount(Math.ceil(count / limit));
+        // setJournal(response?.data)
     }, []);
 
     const deleteJournal = (id) => {
@@ -92,7 +93,6 @@ function JournalList() {
                                                 <th>S/N</th>
                                                 <th>TRANSACTION REF</th>
                                                 <th>TRANSACTION DATE</th>
-                                                <th>SOURCE</th>
                                                 <th>NARRATION</th>
                                             </tr>
                                         </thead>
@@ -129,9 +129,6 @@ function JournalList() {
                                                     </td>
                                                     <td>
                                                         <span> {moment(detail?.transactionDate).format('MMM D, YYYY')}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span>{detail?.source}</span>
                                                     </td>
                                                     <td>
                                                         <span>{detail?.narration}</span>
