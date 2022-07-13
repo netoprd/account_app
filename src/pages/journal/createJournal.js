@@ -7,6 +7,7 @@ import Backbutton from '../../components/backbutton';
 import { source } from '../../utils/enum';
 import { formatter2 } from '../../utils/formatter';
 import { journalDefinition } from '../../utils/journaldefinationdemo';
+import { v4 as uuidv4 } from 'uuid';
 
 
 export default function CreateJournal() {
@@ -184,14 +185,16 @@ export default function CreateJournal() {
     }
 
     const submitJournal = () => {
+        const id = uuidv4()
         const jour = []
         for (const c of (journalDetails)) {
             let obj = {
+                parentguid:id,
                 transactionNarration: c.transactionNarration,
                 accountCode: c.accountCode,
                 debit: c.debit,
                 credit: c.credit,
-                parentguid: c.parentguid,
+                journalDefinitionParentguid: c.parentguid,
                 sn: c.sn,
                 journalDefinitionId: c.journalDefinitionId
             }
@@ -202,7 +205,8 @@ export default function CreateJournal() {
 
 
         const payload = {
-            journalguid: journal.journalguid,
+            guid:id,
+            journalDefinitionGuid: journal.journalguid,
             transactionRef: journal.transactionRef,
             transactionDate: journal.transactionDate,
             narration: journal.narration,
