@@ -6,10 +6,12 @@ import dbData from '../../accdb';
 import Backbutton from '../../components/backbutton';
 import { formatter2 } from '../../utils/formatter';
 import { listJournalDef } from '../../utils/listdemodef';
+import { useNavigate } from 'react-router';
 
 
 export default function EditJournalDefinition() {
     const id = useParams()
+    const history = useNavigate()
     const { register, handleSubmit, formState: { errors }, reset, watch, trigger, control, setValue } = useForm({
         mode: "onChange",
         reValidateMode: 'onChange'
@@ -39,9 +41,9 @@ export default function EditJournalDefinition() {
         // const res = response.find(y => y.id === Number(id.id))
         // setJournalDefinition(res)
         // setJournalDefinitionDetails(res?.journalDefinitionDetails)
-        console.log({ journalDefinition })
+       
     }, []);
-
+   
 
     const handleOnChange = (e) => {
         let { name, value, checked } = e.target
@@ -113,10 +115,14 @@ export default function EditJournalDefinition() {
     }
 
     const editJournal = (journalDefinition) => {
+        console.log("UD",journalDefinition)
         setValue2("transactionNarration", journalDefinition.transactionNarration)
-        setValue2("accountCode", journalDefinition.accountCode)
-        setValue2("credit", formatter2.format(journalDefinition.credit))
-        setValue2("debit", formatter2.format(journalDefinition.debit))
+        setValue2("accountCode", journalDefinition.accountCode);
+        setValue2("isCredited",journalDefinition.isCredited)
+
+        // setValue2("amount",formatter2.format(journalDefinition.amount))
+        // setValue2("credit", formatter2.format(journalDefinition.credit))
+        // setValue2("debit", formatter2.format(journalDefinition.debit))
         setAddJournalDefinitionDetails(journalDefinition)
         const filteredJournals = journalDefinitionDetails.filter(function (item) {
             return item.accountCode !== journalDefinition.accountCode;
@@ -141,7 +147,16 @@ export default function EditJournalDefinition() {
             dateOfMonth: journalDefinition.dateOfMonth,
             journalDefinitionDetails: journalDefinitionDetails
         }
-        console.log({ payload })
+        dbData.editjournalDefinition(id.id,payload,callback)
+        function callback(r){
+            if (r === 'success') {
+                history("/listjournaldef")
+                alert('Journal defination created')//remove all alert and add toaster:  NOTE DUE TO THE NATURE OF THE DB THE SUCCESS ALERT MIGHT COME SEVERAL TIMES. PLEASE HANDLE THE ISSUE OR LET ME KNOW IF YOU CANT
+            }else{
+                alert(r)//REMOVE THE ALERT AND ADD THE TOASTER
+            }
+        }
+        //console.log({ payload })
         localStorage.setItem("journdef", JSON.stringify(payload));
 
     }
@@ -306,6 +321,7 @@ export default function EditJournalDefinition() {
                                 <label htmlFor="isCredited">Is Credited</label>
                                 <div className="custom-control custom-switch">
                                     <input type="checkbox"
+                             //  defaultChecked={this.value===true? "checked":""}
                                         className="custom-control-input"
                                         id="isCredited"
                                         name="isCredited"
@@ -416,8 +432,8 @@ export default function EditJournalDefinition() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {journalDefinitionDetails &&
-                                                journalDefinitionDetails.map((journal, index) =>
+                                            {journalDefinition.journalDefinitionDetails &&
+                                                journalDefinition.journalDefinitionDetails.map((journal, index) =>
                                                     <tr className="py-0">
                                                         <td >
                                                             {index + 1}

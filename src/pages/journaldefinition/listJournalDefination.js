@@ -15,13 +15,26 @@ export default function ListJournalDefination() {
 
     useEffect(() => {
         const response = dbData.getalljuornaldiscription(setJournal)
+        console.log('ffffff', journal )
         // const response = listJournalDef
         // console.log(response?.data)
         // const count = response.totalCount;
         // setPageCount(Math.ceil(count / limit));
         // setJournal(response?.data)
+
+        // const getj = async  () => {
+        //     const rows = await dbData.getalljuornaldiscription();
+        //     if (rows.length) {
+                
+        //         setJournal(rows)
+        //     } else {
+                
+        //     }
+        // }
+
+        // getj()
     }, []);
-    console.log({ journal })
+    console.log('ffffff', journal )
     const deleteJournal = (id) => {
         try {
             Swal.fire({
