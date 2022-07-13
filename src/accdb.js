@@ -341,7 +341,7 @@ const getjuornalbyid = function(id, callback){
       }     
 
       db.transaction(function (tx) {
-         tx.executeSql('Select * ' + 'from journal j ' + 'INNER JOIN journalDetails jd on j.id = jd.journalid '+' where id =?', [id], function (tx, results) {
+         tx.executeSql('Select * ' + 'from journal j ' + 'INNER JOIN journalDetails jd on j.guid = jd.parentguid '+' where guid =?', [id], function (tx, results) {
             console.log("r", results.rows);
 
             for (const item of results.rows) {
@@ -400,6 +400,20 @@ const deletejournaldefination = function(id, callback){
 }
 
 
+const approvejournal = function(id, callback){
+   let approdate = new Date()
+   db.transaction(function (tx) {
+      tx.executeSql('update journalDefinition set approvedBy =?, approvedOn =? where journalguid=?', ['onlineuser', approdate, id], function (tx, results) {
+         console.log(results);
+         callback('success')
+
+      }, function (e, r) {
+         callback('error:' + e.message)
+      });
+   });
+}
+
+
 
 
 
@@ -420,6 +434,7 @@ const dbData = {
    createjournal,
    getalljuornal,
    getjuornalbyid,
-   deletejournaldefination
+   deletejournaldefination,
+   approvejournal
 }
 export default dbData;
