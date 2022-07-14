@@ -138,20 +138,12 @@ const getchatofaccountbyIsHeaderandHeadacc = function (callback) {
 const getchatofaccountbycode = function (accCode, callback) {
 
    db.transaction(function (tx) {
-<<<<<<< HEAD
       tx.executeSql("Select * from chartOfAccount where headerAccountCode =?", [accCode], function (tx, results) {
-=======
-      tx.executeSql(`Select * from chartOfAccount where accountCode = ${accCode}`, [], function (tx, results) {
->>>>>>> origin/main
          console.log("r", results.rows);
          callback(results.rows)
       }, function (e, r) {
          //   console.log({e});
-<<<<<<< HEAD
          callback('error:' + r.message)
-=======
-         callback('error:' + e.message)
->>>>>>> origin/main
       }
       );
    });
@@ -168,17 +160,10 @@ const savejournalDefinition = function (datatosave, callback) {
          callback('success')
 
       }, function (e, r) {
-<<<<<<< HEAD
          callback('error:' + e.message)
       });
 
 
-=======
-         console.log({ e });
-         callback('error:' + e.message)
-      });
-
->>>>>>> origin/main
       for (const item of datatosave.journalDefinitionDetails) {
          tx.executeSql('INSERT INTO journalDefinitionDetails(parentguid, journalDefinationId, accountCode, amount, canChangeAccountCode, canChangeAmount, canChangeIsCredited, compulsory, isCredited, sn) VALUES (?,?,?,?,?,?,?,?,?,?)', [item.parentguid, parent, item.accountCode, parseInt(item.amount), item.canChangeAccountCode, item.canChangeAmount, item.canChangeIsCredited, item.compulsory, item.isCredited, item.sn], function (tx, results) {
             console.log({ results });
