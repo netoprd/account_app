@@ -30,8 +30,15 @@ export default function EditJournal() {
     })
 
     useEffect(() => {
-        const response = dbData.getjuornalbyid((id.id), setJournal)
-        setJournalDetails(journal?.journalsDetails)
+        const response = dbData.getjuornalbyid((id.id), callback)
+        function callback(r) {
+            if (r.success === 'success') {
+                setJournal(r.journals) 
+                setJournalDetails(r?.journals?.journalsDetails)
+            } else {
+                alert(r)//REMOVE THE ALERT AND ADD THE TOASTER
+            }
+        }
         console.log(journal)
     }, []);
 
@@ -110,7 +117,7 @@ export default function EditJournal() {
         setAddJournalDetails(journal)
         const filteredJournals = journalDetails.filter(function (item) {
             return item.accountCode !== journal.accountCode;
-    })
+        })
         setJournalDetails([...filteredJournals]);
 
     }
@@ -128,7 +135,7 @@ export default function EditJournal() {
             approvedBy: "Stephanie",
             journalDetails: journalDetails
         }
-        console.log({payload})
+        console.log({ payload })
     }
     return (
         <>
@@ -144,12 +151,12 @@ export default function EditJournal() {
                             <span className="mr-5 d-none d-md-block"></span>
                         </div>
                         <div className="d-flex align-items-right justify-content-between">
-                        <Backbutton/>
-                        <button type="button" onClick={submitJournal}
-                        class="btn btn-primary btn-sm btn-icon-text text-white d-flex float-right">
-                            <i className="ti-save mr-1" title="Submit"></i>
-                            <span className="d-none d-md-block">SUBMIT</span>
-                        </button>
+                            <Backbutton />
+                            <button type="button" onClick={submitJournal}
+                                class="btn btn-primary btn-sm btn-icon-text text-white d-flex float-right">
+                                <i className="ti-save mr-1" title="Submit"></i>
+                                <span className="d-none d-md-block">SUBMIT</span>
+                            </button>
 
                         </div>
 
