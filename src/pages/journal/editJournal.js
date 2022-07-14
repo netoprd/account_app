@@ -137,11 +137,11 @@ export default function EditJournal() {
     }
 
     const deleteJournal = (journal) => {
-        let exists = journalDetails.find(x => x.accountCode === journal.accountCode);
+        let exists = journalDetails.find(x => x.sn === journal.sn);
 
         if (exists) {
             const filteredJournals = journalDetails.filter(function (item) {
-                return item.accountCode !== journal.accountCode;
+                return item.sn !== journal.sn;
             })
             setJournalDetails([...filteredJournals]);
         }
@@ -167,7 +167,7 @@ export default function EditJournal() {
         }
 
         const filteredJournals = journalDetails.filter(function (item) {
-            return item.accountCode !== journal.accountCode;
+            return item.sn !== journal.sn;
         })
         setJournalDetails([...filteredJournals]);
 
