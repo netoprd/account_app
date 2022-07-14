@@ -59,7 +59,7 @@ export default function ListJournalDefination() {
                     //     console.log(response?.data)
                     //     const count = response.data.totalCount;
                     //     setPageCount(Math.ceil(count / limit));
-                    //     setBalanceAdj(response?.data?.data);
+                    //     isetBalanceAdj(response?.data?.data);
                     // }
                 }
             })
