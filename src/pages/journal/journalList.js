@@ -36,15 +36,11 @@ function JournalList() {
                 confirmButtonText: 'Yes, delete it!'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    // const result = await api.StockAdjustment.delete(id);
-                    // // notifySuccess(result.sucessMessage)
-                    // if (result.sucessMessage) {
-                    //     const response = await api.StockAdjustment.load(page, limit, "", documentType)
-                    //     console.log(response?.data)
-                    //     const count = response.data.totalCount;
-                    //     setPageCount(Math.ceil(count / limit));
-                    //     setBalanceAdj(response?.data?.data);
-                    // }
+                    const result = dbData.deletejournal(id, callback);
+                    function callback(r) {
+                        const res = dbData.getalljuornal(setJournal)
+                        alert(r)//remove all alert and add toaster:  NOTE DUE TO THE NATURE OF THE DB THE SUCCESS ALERT MIGHT COME SEVERAL TIMES. PLEASE HANDLE THE ISSUE OR LET ME KNOW IF YOU CANT
+                    }
                 }
             })
         }
@@ -78,9 +74,9 @@ function JournalList() {
                                 <form className="mt-3">
                                     <div className="form-group col-md-6 mx-auto mt-3">
                                         <div className="input-group">
-                                            <input type="text" className="form-control form-control-sm" placeholder="Search Journal" aria-label="Recipient's username" 
+                                            <input type="text" className="form-control form-control-sm" placeholder="Search Journal" aria-label="Recipient's username"
                                             // onChange={e => searchAdj(e.target.value)}
-                                             />
+                                            />
                                         </div>
                                     </div>
                                 </form>
@@ -117,7 +113,7 @@ function JournalList() {
                                                             {!detail?.approvedBy && <>
                                                                 <Link to={`/editjournal/${detail.guid}`}><i className="ti-pencil btn-icon-append text-success" title="Edit" /></Link>
                                                                 {/* <Link to={`/stockreceiptview/${detail?.id}`}><i className="ti-trash btn-icon-append text-danger" title="Delete" /></Link> */}
-                                                                <i className="ti-trash btn-icon-append text-danger" onClick={() => deleteJournal(detail?.id)} title="Delete" />
+                                                                <i className="ti-trash btn-icon-append text-danger" onClick={() => deleteJournal(detail?.guid)} title="Delete" />
                                                             </>}
                                                         </div>
                                                     </td>
