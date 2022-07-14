@@ -96,21 +96,10 @@ const getallchartofaccountIsheader = function (callback) {
 const getchatofaccountbyId = function (id, callback) {
 
    db.transaction(function (tx) {
-      tx.executeSql(`Select * from chartOfAccount where id = ${id}`, [], function (tx, re) {
-         let output = {
-            accountCode : re.rows.accountCode,
-            accountName : re.rows.accountName,
-            accountType : re.rows.accountType,
-            isHeader : re.rows.isHeader,
-            headerAccountCode : re.rows.headerAccountCode,
-            headerAccountName : re.rows.headerAccountName,
-            balance : re.rows.balance,
-            createdBy : re.rows.createdBy,
-            createdOn : re.rows.createdOn,
-         }
-         console.log("r", output);
-
-         callback(output)
+      tx.executeSql(`Select * from chartOfAccount where id = ${id}`, [], function (tx, results) {
+         console.log("r", results.rows);
+         
+         callback(results.rows)
       }, function (e, r) {
          //   console.log({e});
          callback('error:' + e.message)
@@ -138,12 +127,12 @@ const getchatofaccountbyIsHeaderandHeadacc = function (callback) {
 const getchatofaccountbycode = function (accCode, callback) {
 
    db.transaction(function (tx) {
-      tx.executeSql(`Select * from chartOfAccount where accountCode = ${accCode}`, [], function (tx, results) {
+      tx.executeSql('Select * from chartOfAccount where accountCode =?', [accCode], function (tx, results) {
          console.log("r", results.rows);
          callback(results.rows)
       }, function (e, r) {
          //   console.log({e});
-         callback('error:' + e.message)
+         callback('error:' + r.message)
       }
       );
    });
