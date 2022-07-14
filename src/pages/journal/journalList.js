@@ -16,7 +16,7 @@ function JournalList() {
     useEffect(() => {
         const response = dbData.getalljuornal(callback)
         function callback(r) {
-            console.log({r})
+            console.log({ r })
             if (r?.result?.length > 0) {
                 setJournal(r.result)
             } else {
@@ -41,17 +41,17 @@ function JournalList() {
                 if (result.isConfirmed) {
                     const result = dbData.deletejournal(id, setDeletel);
 
-                        const res = dbData.getalljuornal(callback)
-                        function callback(r) {
-                            console.log({r})
-                            if (r?.result?.length > 0) {
-                                setJournal(r.result)
-                            } else {
-                                setJournal([])
-                            }
-                
-                        }                
-                        // alert(deletel.message)//remove all alert and add toaster:  NOTE DUE TO THE NATURE OF THE DB THE SUCCESS ALERT MIGHT COME SEVERAL TIMES. PLEASE HANDLE THE ISSUE OR LET ME KNOW IF YOU CANT
+                    const res = dbData.getalljuornal(callback)
+                    function callback(r) {
+                        console.log({ r })
+                        if (r?.result?.length > 0) {
+                            setJournal(r.result)
+                        } else {
+                            setJournal([])
+                        }
+
+                    }
+                    // alert(deletel.message)//remove all alert and add toaster:  NOTE DUE TO THE NATURE OF THE DB THE SUCCESS ALERT MIGHT COME SEVERAL TIMES. PLEASE HANDLE THE ISSUE OR LET ME KNOW IF YOU CANT
                 }
             })
         }
@@ -145,6 +145,12 @@ function JournalList() {
                                         </tbody>
                                     </table>
                                 </div>
+                                {
+                                    journal?.length === 0 &&
+                                    <div className='row'>
+                                        <strong className='mx-auto mt-5 h3'>No Journal Record</strong>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
