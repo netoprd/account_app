@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import dbData from '../../accdb';
 import Backbutton from '../../components/backbutton';
 import api from '../../utils/api';
@@ -10,10 +10,9 @@ import { notifySuccess } from '../../utils/toast';
 
 export default function EditChartOfAccount() {
     const history = useNavigate()
+    const {id}=useParams();
     const [loading, setloading] = useState(false);
     const [headerAccounts, setHeaderAccounts] = useState([]);
-    const [editDta, setEditDta] = useState([]);
-    const [tess, setTess] = useState([]);
     const [items, setItems] = useState({
         accountCode: "",
         accountName: "",
@@ -31,25 +30,18 @@ export default function EditChartOfAccount() {
     });
 
     useEffect(() => {
-        const response = dbData.getallchartofaccountIsheader(setTess);
-        dbData.getchatofaccountbyId(10, setEditDta);
-
-        // const headerAccount = response?.data?.filter(x => x.isHeaderAccount);
-        // setHeaderAccounts(headerAccount)
+        dbData.getchatofaccountbyId(id, callback);
+        function callback(r) {
+            setHeaderAccounts(Object.values(r))
+            const z = Object.values(r)
+            setValue("accountCode", z[0]?.accountCode);
+            setValue("accountName", z[0]?.accountName);
+            setValue("accountType", z[0]?.accountType);
+            setValue("isHeader", z[0]?.isHeader);
+            setValue("headerAccountName", z[0]?.headerAccountName);
+            setValue("balance", z[0]?.balance);
+        }
     }, []);
-    setTimeout(() => {
-        setHeaderAccounts(Object.values(tess))
-        // setEditDta(Object.values(editDta))
-    }, 1);
-    // setTimeout(() => {
-    //     console.log({editDta})
-    //     setValue("accountCode", editDta[0]?.accountCode);
-    //     setValue("accountName", editDta[0]?.accountName);
-    //     setValue("accountType", editDta[0]?.accountType);
-    //     setValue("isHeader", editDta[0]?.isHeader);
-    //     setValue("headerAccountName", editDta[0]?.headerAccountName);
-    //     setValue("balance", editDta[0]?.balance);
-    // }, 2);
     const handleOnChange = (e) => {
         const { name, value, checked } = e.target
         setItems({
@@ -80,7 +72,7 @@ export default function EditChartOfAccount() {
             let code = headerAccounts.find(x => x.accountName === items.headerAccountName);
             if (code) {
                 items.headerAccountCode = code.accountCode
-                const db = dbData.editChartOfAccount(10, items, callback)
+                 dbData.editChartOfAccount(id, items, callback)
                 function callback(r) {
                     if (r === 'success') {
                         alert('Chart of account updated')//remove alert and add toaster:
@@ -91,10 +83,10 @@ export default function EditChartOfAccount() {
                     }
                 }
             } else {
-                const db = dbData.savechartofaccount(items, callback)
+                dbData.editChartOfAccount(id, items, callback)
                 function callback(r) {
                     if (r === 'success') {
-                        alert('Chart of account created')//remove alert and add toaster:
+                        alert('Chart of account updated')//remove alert and add toaster:
                     } else if (r === 'duplicate') {
                         alert('duplicate')
                     } else {
@@ -102,8 +94,6 @@ export default function EditChartOfAccount() {
                     }
                 }
             }
-
-
         }
         catch (error) {
             console.log(error)

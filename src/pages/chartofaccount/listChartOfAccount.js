@@ -22,16 +22,11 @@ export default function ListChartOfAccount() {
 
     useEffect(() => {
         const response = dbData.getchatofaccountbyIsHeaderandHeadacc(setFirstChart);
-        // const count = response.totalCount;
-        // setPageCount(Math.ceil(count / limit));
-        // setChartOfAccount(response?.data)
-        // console.log("data", response?.data)
+        dbData.getchatofaccountbyIsHeaderandHeadacc(callback);
+        function callback(r) {
+            setChartOfAccount(Object.values(r))
+        }
     }, []);
-    setTimeout(() => {
-        setChartOfAccount(Object.values(firstChart))
-    }, 1000);
-    const headerAccount = chartOfAccount?.filter(x => x.isHeaderAccount && x.headerAccount === "");
-    // console.log({ headerAccount })
 
     const filterChartAccount = (headaccount) => {
         const headChild = chartOfAccount?.filter(x => x.isHeaderAccount && x.headerAccount === headaccount);
@@ -71,10 +66,11 @@ export default function ListChartOfAccount() {
         }
     }
     const getAccountChildren = (code) => {
-        const response = dbData.getchatofaccountbycode(code, setAccheaderChild1);
-        // setTimeout(() => {
-        setAccheaderChild(Object.values(accheaderChild1))
-        // }, 1);
+         dbData.getchatofaccountbycode(code, callback);
+        function callback(r) {
+            console.log({r})
+            setAccheaderChild(Object.values(r))
+        }
     }
 
     return (

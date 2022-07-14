@@ -31,13 +31,13 @@ export default function ChartOfAccount() {
     });
 
     useEffect(() => {
-        const response = dbData.getallchartofaccountIsheader(setTess);
-        // const headerAccount = response?.data?.filter(x => x.isHeaderAccount);
-        // setHeaderAccounts(headerAccount)
+        const response = dbData.getallchartofaccountIsheader(callback);
+        function callback(r){
+            setHeaderAccounts(Object.values(r))
+        }
+       
     }, []);
-    setTimeout(() => {
-        setHeaderAccounts(Object.values(tess))
-    }, 1000);
+    console.log({headerAccounts})
     const handleOnChange = (e) => {
         const { name, value, checked } = e.target
         setItems({
