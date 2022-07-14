@@ -11,6 +11,7 @@ import dbData from '../../accdb';
 
 function JournalList() {
     const [journal, setJournal] = useState([]);
+    const [deletel, setDeletel] = useState({});
     const [pageCount, setPageCount] = useState(0);
     const page = 1;
     const [limit, setLimit] = useState(15);
@@ -36,10 +37,13 @@ function JournalList() {
                 confirmButtonText: 'Yes, delete it!'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    const result = dbData.deletejournal(id, callback);
-                    function callback(r) {
+                    const result = dbData.deletejournal(id, setDeletel);
+                    if(deletel.success){
                         const res = dbData.getalljuornal(setJournal)
-                        alert(r)//remove all alert and add toaster:  NOTE DUE TO THE NATURE OF THE DB THE SUCCESS ALERT MIGHT COME SEVERAL TIMES. PLEASE HANDLE THE ISSUE OR LET ME KNOW IF YOU CANT
+                        // alert(deletel.message)//remove all alert and add toaster:  NOTE DUE TO THE NATURE OF THE DB THE SUCCESS ALERT MIGHT COME SEVERAL TIMES. PLEASE HANDLE THE ISSUE OR LET ME KNOW IF YOU CANT
+                    }else{
+                        const res = dbData.getalljuornal(setJournal)
+                        // alert(deletel.message)
                     }
                 }
             })
