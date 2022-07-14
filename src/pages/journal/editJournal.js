@@ -2,6 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
+import dbData from '../../accdb';
 import Backbutton from '../../components/backbutton';
 import { source } from '../../utils/enum';
 import { formatter2 } from '../../utils/formatter';
@@ -29,11 +30,9 @@ export default function EditJournal() {
     })
 
     useEffect(() => {
-        const response = journals?.data
-        const res = response.find(y => y.id === Number(id.id))
-        setJournal(res)
-        setJournalDetails(res?.journalDetails)
-        console.log({ res })
+        const response = dbData.getjuornalbyid((id.id), setJournal)
+        setJournalDetails(journal?.journalsDetails)
+        console.log(journal)
     }, []);
 
 
@@ -340,7 +339,7 @@ export default function EditJournal() {
                                         </thead>
                                         <tbody>
                                             {journalDetails &&
-                                                journalDetails.map((journal, index) =>
+                                                journalDetails?.map((journal, index) =>
                                                     <tr className="py-0">
                                                         <td >
                                                             {index + 1}
