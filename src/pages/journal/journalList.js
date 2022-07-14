@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
-import api from '../../utils/api';
 import moment from 'moment';
-import { BalanceAdjustmentType } from '../../utils/mesureenum';
 import Swal from 'sweetalert2';
-import Paginate from '../../components/paginate';
 import Limit from '../../components/limit';
-import { journals } from '../../utils/journaldemodata';
 import dbData from '../../accdb';
 
 function JournalList() {
@@ -18,12 +14,18 @@ function JournalList() {
     const [search, setSearch] = useState("");
 
     useEffect(() => {
-        const response = dbData.getalljuornal(setJournal)
-        // console.log(response?.data)
-        // const count = response.totalCount;
-        // setPageCount(Math.ceil(count / limit));
-        // setJournal(response?.data)
+        const response = dbData.getalljuornal(callback)
+        function callback(r) {
+            console.log({r})
+            if (r?.result?.length > 0) {
+                setJournal(r.result)
+            } else {
+                setJournal([])
+            }
+
+        }
     }, []);
+    console.log({ journal })
 
     const deleteJournal = (id) => {
         try {
@@ -38,13 +40,18 @@ function JournalList() {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     const result = dbData.deletejournal(id, setDeletel);
-                    if(deletel.success){
-                        const res = dbData.getalljuornal(setJournal)
+
+                        const res = dbData.getalljuornal(callback)
+                        function callback(r) {
+                            console.log({r})
+                            if (r?.result?.length > 0) {
+                                setJournal(r.result)
+                            } else {
+                                setJournal([])
+                            }
+                
+                        }                
                         // alert(deletel.message)//remove all alert and add toaster:  NOTE DUE TO THE NATURE OF THE DB THE SUCCESS ALERT MIGHT COME SEVERAL TIMES. PLEASE HANDLE THE ISSUE OR LET ME KNOW IF YOU CANT
-                    }else{
-                        const res = dbData.getalljuornal(setJournal)
-                        // alert(deletel.message)
-                    }
                 }
             })
         }
