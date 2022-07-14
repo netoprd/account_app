@@ -78,8 +78,8 @@ export default function CreateJournal() {
                 let obj = {
                     transactionNarration: value,
                     accountCode: c.accountCode,
-                    debit: c.isCredited ? 0 : c.amount,
-                    credit: c.isCredited ? c.amount : 0,
+                    debit: c.isCredited ==="false"? 0 : c.amount,
+                    credit: c.isCredited ==="false"? c.amount : 0,
                     canChangeAccountCode: c.canChangeAccountCode,
                     canChangeAmount: c.canChangeAmount,
                     canChangeIsCredited: c.canChangeIsCredited,
