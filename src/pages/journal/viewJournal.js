@@ -1,15 +1,17 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import Backbutton from '../../components/backbutton'
 import { Link } from 'react-router-dom';
 import { source } from '../../utils/enum';
 import { journals } from '../../utils/journaldemodata';
 import { formatter2 } from '../../utils/formatter';
 import dbData from '../../accdb';
+import Swal from 'sweetalert2';
 
 export default function ViewJournal() {
     const id = useParams()
+    const history =  useNavigate()
     const [journal, setJournal] = useState([]);
     const [loading, setLoading] = useState(false)
 
@@ -26,9 +28,39 @@ export default function ViewJournal() {
     }, []);
         console.log({ journal })
 
-    const approve = () => {
-
-    }
+        const approve = () => {
+            setLoading(true)
+            try {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#4B49AC',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        const result = dbData.approvejournal(id.id, callback);
+                        function callback(r) {
+                            if(r.success ===true){
+                                history("/listjournal")
+                                setLoading(false)
+                                alert(r.successMessage)//remove all alert and add toaster:  NOTE DUE TO THE NATURE OF THE DB THE SUCCESS ALERT MIGHT COME SEVERAL TIMES. PLEASE HANDLE THE ISSUE OR LET ME KNOW IF YOU CANT    
+                            }else{
+                                alert(r.errorMessage)
+                                setLoading(false)
+                            }
+                        }
+                    }
+                })
+            }
+            catch (error) {
+                console.log(error)
+                setLoading(false)
+            }
+        }
+    
     return (
         <>
             <div className="content-wrapper mt-5">
