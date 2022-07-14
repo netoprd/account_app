@@ -14,7 +14,7 @@ export default function ViewJournal() {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        const response = dbData.getjuornalbyid(Number(id.id), setJournal)
+        const response = dbData.getjuornalbyid((id.id), setJournal)
         // const res = response.find(y => y.id === Number(id.id))
         // setJournal(res)
         // console.log({ res })
