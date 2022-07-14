@@ -78,8 +78,8 @@ export default function CreateJournal() {
                 let obj = {
                     transactionNarration: value,
                     accountCode: c.accountCode,
-                    debit: c.isCredited ==="false"? 0 : c.amount,
-                    credit: c.isCredited ==="false"? c.amount : 0,
+                    debit: c.isCredited === "false" ? 0 : c.amount,
+                    credit: c.isCredited === "false" ? c.amount : 0,
                     canChangeAccountCode: c.canChangeAccountCode,
                     canChangeAmount: c.canChangeAmount,
                     canChangeIsCredited: c.canChangeIsCredited,
@@ -134,7 +134,7 @@ export default function CreateJournal() {
         const debit = parseFloat(amo ? amo.replace(/,/g, '') : 0);
         const credit = parseFloat(amo2 ? amo2.replace(/,/g, '') : 0);
         const journ = {
-            journalDefinitionId: addJournalDetails.journalDefinitionId?addJournalDetails.journalDefinitionId:"",
+            journalDefinitionId: addJournalDetails.journalDefinitionId ? addJournalDetails.journalDefinitionId : "",
             parentguid: journal.journalguid,
             transactionNarration: addJournalDetails.transactionNarration,
             accountCode: addJournalDetails.accountCode,
@@ -189,7 +189,7 @@ export default function CreateJournal() {
         const jour = []
         for (const c of (journalDetails)) {
             let obj = {
-                parentguid:id,
+                parentguid: id,
                 transactionNarration: c.transactionNarration,
                 accountCode: c.accountCode,
                 debit: c.debit,
@@ -205,7 +205,7 @@ export default function CreateJournal() {
 
 
         const payload = {
-            guid:id,
+            guid: id,
             journalDefinitionGuid: journal.journalguid,
             transactionRef: journal.transactionRef,
             transactionDate: journal.transactionDate,
@@ -219,11 +219,11 @@ export default function CreateJournal() {
         console.log({ payload })
         localStorage.setItem("journal", JSON.stringify(payload));
         dbData.createjournal(payload, callback)
-        function callback(r){
+        function callback(r) {
             if (r === 'success') {
                 history("/listjournal")
                 alert('Journal created')//remove all alert and add toaster:  NOTE DUE TO THE NATURE OF THE DB THE SUCCESS ALERT MIGHT COME SEVERAL TIMES. PLEASE HANDLE THE ISSUE OR LET ME KNOW IF YOU CANT
-            }else{
+            } else {
                 alert(r)//REMOVE THE ALERT AND ADD THE TOASTER
             }
         }
