@@ -19,6 +19,7 @@ export default function ViewJournal() {
         // setJournal(res)
         // console.log({ res })
     }, []);
+        console.log({ journal })
 
     const approve = () => {
 
@@ -73,22 +74,6 @@ export default function ViewJournal() {
                                     placeholder="Narration"
                                     disabled />
                             </div>
-
-                            <div className="form-group col-md-3">
-                                <label htmlFor="source">Source</label>
-                                <select className="form-control form-control-sm"
-                                    id="source"
-                                    name="source"
-                                    value={journal?.source}
-                                    disabled
-                                >
-                                    <option> Select Source </option>
-                                    {source.map((source) => (
-                                        <option key={source.id} >{source.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
                             <div className="form-group col-md-3">
                                 <label htmlFor="journalDescription">Journal Description</label>
                                 <input type="text" className="form-control form-control-sm"
@@ -141,8 +126,8 @@ export default function ViewJournal() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {journal?.journalDetails &&
-                                                journal?.journalDetails.map((journal, index) =>
+                                            {journal?.journalsDetails &&
+                                                journal?.journalsDetails.map((journal, index) =>
                                                     <tr className="py-0">
                                                         <td >
                                                             {index + 1}
