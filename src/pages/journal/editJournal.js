@@ -37,7 +37,7 @@ export default function EditJournal() {
     useEffect(() => {
         const response = dbData.getjuornalbyid((id.id), callback)
         function callback(r) {
-            if (r.success === 'success') {
+            if (r.message === 'success') {
                 setJournal(r.journals)
                 setJournalDetails(r?.journals?.journalsDetails)
                 const response = dbData.getjuornaldiscriptionbyid((r?.journals?.journalDefinitionGuid), callback)
