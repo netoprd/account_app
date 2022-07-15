@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import Paginate from '../../components/paginate';
@@ -11,7 +11,7 @@ import dbData from '../../accdb';
 export default function ListChartOfAccount() {
 
     const [chartOfAccount, setChartOfAccount] = useState([]);
-    const [firstChart, setFirstChart] = useState();
+    const [firstChart, setFirstChart] = useState(false);
     const [headerChild, setHeaderChild] = useState([]);
     const [accheaderChild, setAccheaderChild] = useState([]);
     const [accheaderChild1, setAccheaderChild1] = useState();
@@ -19,23 +19,24 @@ export default function ListChartOfAccount() {
     const page = 1;
     const [limit, setLimit] = useState(15);
     const [search, setSearch] = useState("");
-
+    const { code } = useParams()
     useEffect(() => {
-        const response = dbData.getchatofaccountbyIsHeaderandHeadacc(setFirstChart);
-        dbData.getchatofaccountbyIsHeaderandHeadacc(callback);
-        function callback(r) {
-            setChartOfAccount(Object.values(r))
+        const getHeaderChild = () => {
+            dbData.getallchartofaccount(callback);
+            function callback(r) {
+                setHeaderChild(Object.values(r))
+            }
         }
+        const getHeader = () => {
+            dbData.getchatofaccountbyIsHeaderandHeadacc(callback);
+            function callback(r) {
+                setChartOfAccount(Object.values(r))
+            }
+        }
+        getHeader();
+        getHeaderChild();
     }, []);
-
-    const filterChartAccount = (headaccount) => {
-        const headChild = chartOfAccount?.filter(x => x.isHeaderAccount && x.headerAccount === headaccount);
-        const accheadChild = chartOfAccount?.filter(x => !x.isHeaderAccount && x.headerAccount === headaccount);
-        setHeaderChild(headChild)
-        setAccheaderChild(accheadChild)
-        console.log({ headChild })
-        console.log({ accheadChild })
-    }
+    console.log({ chartOfAccount })
 
     const deleteChartOfAccount = (id) => {
         try {
@@ -66,12 +67,20 @@ export default function ListChartOfAccount() {
         }
     }
     const getAccountChildren = (code) => {
-         dbData.getchatofaccountbycode(code, callback);
-        function callback(r) {
-            console.log({r})
-            setAccheaderChild(Object.values(r))
+        let p = headerChild.filter(x => x.headerAccountCode === code)
+        console.log({ p })
+        if (p?.length>0) {
+            setChartOfAccount(p)
+            // if (firstChart) {
+            //     setFirstChart(false)
+            // } else {
+            //     setFirstChart(true)
+            // }
         }
+        
+
     }
+
 
     return (
         <>
@@ -103,8 +112,68 @@ export default function ListChartOfAccount() {
                                         </div>
                                     </div>
                                 </form>
-                                <div className="accordion" id="accordionExample">
-                                    {chartOfAccount && chartOfAccount?.length > 0 && chartOfAccount?.map((header, index) =>
+
+                                <div className="table-responsive">
+                                    <table className="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                {/* <th>STATUS</th> */}
+                                                <th>ACTIONS</th>
+                                                <th>S/N</th>
+                                                <th>ISHEADER</th>
+                                                <th>CODE</th>
+                                                <th>NAME</th>
+                                                <th>TYPE</th>
+                                                <th>BALANCE</th>
+                                                <th>CREATED BY</th>
+                                                <th>CREATED ON</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {chartOfAccount && chartOfAccount.length > 0 &&
+                                                chartOfAccount?.map((acc, index) =>
+                                                    <tr key={acc.id} className="text-uppercase">
+                                                        <td>
+                                                            {acc.isHeader === "true" &&
+                                                                <div className="d-flex justify-content-between">
+                                                                    <Link to={"/listchartofaccount"}><i className="ti-eye btn-icon-append text-primary" title="view" onClick={() => getAccountChildren(acc.accountCode)} /></Link>
+                                                                </div>}
+                                                        </td>
+                                                        <td >
+                                                            {index + 1}
+                                                        </td>
+                                                        <td>
+                                                            {acc.isHeader}
+                                                        </td>
+                                                        <td>
+                                                            {acc.accountCode}
+                                                        </td>
+
+                                                        <td>
+                                                            {acc.accountName}
+                                                        </td>
+                                                        <td>
+                                                            {acc.accountType}
+                                                        </td>
+                                                        <td>
+                                                            {acc.balance}
+                                                        </td>
+                                                        <td>
+                                                            {acc.createdBy}
+                                                        </td>
+                                                        <td>
+                                                            {moment(acc.createdOn).format('MMM D, YYYY')}
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+
+                                {/* <div className="accordion" id="accordionExample">
+                                    {chartOfAccount && chartOfAccount?.length > 0 && chartOfAccount?.map((header) =>
                                         <div className="card">
                                             <div className="card-header">
                                                 <h2 className="mb-0">
@@ -113,28 +182,11 @@ export default function ListChartOfAccount() {
                                                     </button>
                                                 </h2>
                                             </div>
-                                            {/* <div id={header.accountName} className="card-header collapse"> */}
-
-                                                {accheaderChild && accheaderChild?.length > 0 && accheaderChild[0].headerAccountCode === header.accountCode && accheaderChild?.map((acc, index) =>
-                                                    <div id={header.accountName} className="card-header collapse">
-                                                        {
-                                                            acc.isHeader === "true" ?
-                                                                <h2 className="mb-0">
-                                                                    <button onClick={() => getAccountChildren(acc.accountCode)} className="btn btn-block text-left" >
-                                                                        {acc.accountName}
-                                                                    </button>
-                                                                </h2>
-                                                                :
-                                                                <div className="card-body">
-                                                                    {acc.accountName}
-                                                                </div>
-                                                        }
-                                                    </div>
-                                                )}
-                                            </div>
-                                        // </div>
+                                            {loadChildren(header.accountCode, header.accountName)}
+                                            {loadChildren2(header.accountCode, header.accountName)}
+                                        </div>
                                     )}
-                                </div>
+                                </div> */}
                                 {/* <div class="accordion" id="accordionExample">
                                     {headerAccount && headerAccount?.length > 0 && headerAccount?.map((header, index) =>
                                         <div class="card">

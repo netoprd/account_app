@@ -106,7 +106,7 @@ export default function EditChartOfAccount() {
             <div className="card mt-5">
                 <div className="card-body">
                     <div className="text-center">
-                        <span className="card-title">CHART OF ACCOUNT</span>
+                        <span className="card-title">EDIT CHART OF ACCOUNT</span>
                     </div>
                     <div className='d-flex float-right mt-2'>
                         <Backbutton />

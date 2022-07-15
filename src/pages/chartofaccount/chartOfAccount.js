@@ -32,12 +32,12 @@ export default function ChartOfAccount() {
 
     useEffect(() => {
         const response = dbData.getallchartofaccountIsheader(callback);
-        function callback(r){
+        function callback(r) {
             setHeaderAccounts(Object.values(r))
         }
-       
+
     }, []);
-    console.log({headerAccounts})
+    console.log({ headerAccounts })
     const handleOnChange = (e) => {
         const { name, value, checked } = e.target
         setItems({
@@ -55,6 +55,7 @@ export default function ChartOfAccount() {
 
     const save = async (items) => {
         try {
+            setloading(true);
             items.createdBy = "ayomide";
             items.createdOn = "Tue Jul 06 2022 11:40:42 GMT+0100 (West Africa Standard Time)";
             // setloading(true);
@@ -72,10 +73,13 @@ export default function ChartOfAccount() {
                 function callback(r) {
                     if (r === 'success') {
                         alert('Chart of account created')//remove alert and add toaster:
+                        setloading(false);
                     } else if (r === 'duplicate') {
                         alert('duplicate')
+                        setloading(false);
                     } else {
                         alert(r)//REMOVE THE ALERT AND ADD THE TOASTER
+                        setloading(false);
                     }
                 }
             } else {
