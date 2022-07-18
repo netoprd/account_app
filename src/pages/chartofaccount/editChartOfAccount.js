@@ -1,18 +1,19 @@
-
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import dbData from '../../accdb';
 import Backbutton from '../../components/backbutton';
 import api from '../../utils/api';
 import { accounts } from '../../utils/chartofaccountdemodata';
 import { notifySuccess } from '../../utils/toast';
-import dbData from '../../accdb';
+//import accdb from '../../accdb'
 
 export default function EditChartOfAccount() {
     const history = useNavigate()
+    const {id}=useParams();
     const [loading, setloading] = useState(false);
     const [headerAccounts, setHeaderAccounts] = useState([]);
-    const [itemToEdit, setItemToEdit] = useState({
+    const [items, setItems] = useState({
         accountCode: "",
         accountName: "",
         accountType: "",
@@ -27,21 +28,24 @@ export default function EditChartOfAccount() {
         mode: "onChange",
         reValidateMode: 'onChange'
     });
-    useEffect(() => {
-        const response = accounts;
-        const headerAccount = response?.data?.filter(x => x.isHeaderAccount);
-        setHeaderAccounts(headerAccount);
-    }, []);
-    const getById = dbData.getchatofaccountbyId(2, callback);
-    function callback(r){
-        console.log({ r })
-    }
-   
 
+    useEffect(() => {
+        dbData.getchatofaccountbyId(id, callback);
+        function callback(r) {
+            setHeaderAccounts(Object.values(r))
+            const z = Object.values(r)
+            setValue("accountCode", z[0]?.accountCode);
+            setValue("accountName", z[0]?.accountName);
+            setValue("accountType", z[0]?.accountType);
+            setValue("isHeader", z[0]?.isHeader);
+            setValue("headerAccountName", z[0]?.headerAccountName);
+            setValue("balance", z[0]?.balance);
+        }
+    }, []);
     const handleOnChange = (e) => {
         const { name, value, checked } = e.target
-        setItemToEdit({
-            ...itemToEdit,
+        setItems({
+            ...items,
             [name]: value ?? JSON.parse(value),
         })
     }
@@ -50,23 +54,46 @@ export default function EditChartOfAccount() {
         const x = headerAccounts.find(y => y.accountCode === code)
         setValue("headerAccountName", x?.accountName);
         setValue("headerAccountCode", x?.accountCode);
-        console.log("itemToEdit", itemToEdit)
+        console.log("items", items)
     }
 
-    const save = async (itemToEdit) => {
+    const save = async (items) => {
         try {
-            itemToEdit.createdBy = "ayomide";
-            itemToEdit.createdOn = "Tue Jul 06 2022 11:40:42 GMT+0100 (West Africa Standard Time)";
+            items.createdBy = "ayomide";
+            items.createdOn = "Tue Jul 06 2022 11:40:42 GMT+0100 (West Africa Standard Time)";
             // setloading(true);
-            // const created = await api.User.save(itemToEdit);
+            // const created = await api.User.save(items);
             // setloading(false)
             // notifySuccess("Successfully Created");
             // notifySuccess(created.sucessMessage);
             // history("/userslist");
             // setloading(false);
-            console.log("itemToEdit", itemToEdit)
-            // savechartofaccount(itemToEdit)
-            // accdb.savechartofaccount(itemToEdit)
+            //console.log("items", items)
+            let code = headerAccounts.find(x => x.accountName === items.headerAccountName);
+            if (code) {
+                items.headerAccountCode = code.accountCode
+                 dbData.editChartOfAccount(id, items, callback)
+                function callback(r) {
+                    if (r === 'success') {
+                        alert('Chart of account updated')//remove alert and add toaster:
+                    } else if (r === 'duplicate') {
+                        alert('duplicate')
+                    } else {
+                        alert(r)//REMOVE THE ALERT AND ADD THE TOASTER
+                    }
+                }
+            } else {
+                dbData.editChartOfAccount(id, items, callback)
+                function callback(r) {
+                    if (r === 'success') {
+                        alert('Chart of account updated')//remove alert and add toaster:
+                    } else if (r === 'duplicate') {
+                        alert('duplicate')
+                    } else {
+                        alert(r)//REMOVE THE ALERT AND ADD THE TOASTER
+                    }
+                }
+            }
         }
         catch (error) {
             console.log(error)
@@ -79,7 +106,7 @@ export default function EditChartOfAccount() {
             <div className="card mt-5">
                 <div className="card-body">
                     <div className="text-center">
-                        <span className="card-title">ACCOUNT CHART</span>
+                        <span className="card-title">EDIT CHART OF ACCOUNT</span>
                     </div>
                     <div className='d-flex float-right mt-2'>
                         <Backbutton />
@@ -154,34 +181,45 @@ export default function EditChartOfAccount() {
                         </div>
                         <div className="form-group col-md-3">
                             <label htmlFor="headerAccountName" className="form-label float-left">Header Account
-                                {/* <span className='text-danger'>*</span> */}
+                                {!items.isHeader && <span className='text-danger'>*</span>}
                                 {errors.headerAccountName &&
                                     <span className="text-danger font-weight-bold"> required</span>}
                             </label>
-                            <div className='input-group'>
-                                <input type="text" className="form-control text-capitalize"
-                                    id="headerAccountName"
-                                    name="headerAccountName"
-                                    onChange={(e) => handleOnChange(e)}
-                                    {...register("headerAccountName", { required: true })}
-                                    placeholder="Header Account" />
-                                <div
-                                    style={{ cursor: 'pointer' }}
-                                    class="input-group-prepend"
-                                    data-toggle="modal"
-                                    data-target="#participantsModal">
-                                    <span
-                                        className="input-group-text bg-primary text-light"
-                                        id="inputGroup-sizing-default"
-                                    >
-                                        <i
-                                            className={
-                                                "ti-plus"
-                                            }
-                                        ></i>
-                                    </span>
-                                </div>
-                            </div>
+                            <select className="form-control"
+                                type="text"
+                                id="headerAccountName"
+                                name="headerAccountName"
+                                {...register("headerAccountName", { required: false, onChange: (e) => handleOnChange(e) })}
+                            >
+                                <option value="" ></option>
+                                {headerAccounts && Object.values(headerAccounts)?.length > 0 && Object.values(headerAccounts)?.map(header =>
+                                    <option value={header.accountName} >{header.accountName}</option>
+                                )}
+                            </select>
+                            {/* <div className='input-group'>
+                                    <input type="text" className="form-control text-capitalize"
+                                        id="headerAccountName"
+                                        name="headerAccountName"
+                                        onChange={(e) => handleOnChange(e)}
+                                        {...register("headerAccountName", { required:  false })}
+                                        placeholder="Header Account" />
+                                    <div
+                                        style={{ cursor: 'pointer' }}
+                                        class="input-group-prepend"
+                                        data-toggle="modal"
+                                        data-target="#participantsModal">
+                                        <span
+                                            className="input-group-text bg-primary text-light"
+                                            id="inputGroup-sizing-default"
+                                        >
+                                            <i
+                                                className={
+                                                    "ti-plus"
+                                                }
+                                            ></i>
+                                        </span>
+                                    </div>
+                                </div> */}
                         </div>
 
                         <div className="form-group col-md-3">
@@ -276,21 +314,21 @@ export default function EditChartOfAccount() {
                                             </table>
                                         </div>
                                         {/* {
-                                            products?.length === 0 &&
-                                            <div className='row'>
-                                                <strong className='mx-auto mt-5 h3'>No Product Record</strong>
-                                            </div>
-                                        } */}
+                                                products?.length === 0 &&
+                                                <div className='row'>
+                                                    <strong className='mx-auto mt-5 h3'>No Product Record</strong>
+                                                </div>
+                                            } */}
                                     </div>
                                     {/* {
-                                        productBalance.length !== 0 &&
-                                        <Paginate
-                                            limit={limit}
-                                            setData={setProductBalance}
-                                            apiToCall={api.BalanceAdjustment.loadProduct}
-                                            pageCount={pageCount}
-                                        />
-                                    } */}
+                                            productBalance.length !== 0 &&
+                                            <Paginate
+                                                limit={limit}
+                                                setData={setProductBalance}
+                                                apiToCall={api.BalanceAdjustment.loadProduct}
+                                                pageCount={pageCount}
+                                            />
+                                        } */}
                                 </div>
                             </div>
                         </div>

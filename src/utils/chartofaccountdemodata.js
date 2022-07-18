@@ -49,7 +49,7 @@ export const accounts = {
             createdBy: "",
             createdOn: "Tue Jul 07 2022 11:40:42 GMT+0100 (West Africa Standard Time)",
             accountCode: "00102",
-            accountName: "r'n'd",
+            accountName: "rnd",
             accountType: "liability",
             isHeaderAccount: true,
             headerAccountCode: "0010",
