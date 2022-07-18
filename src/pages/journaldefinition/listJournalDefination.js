@@ -12,6 +12,7 @@ export default function ListJournalDefination() {
     const page = 1;
     const [limit, setLimit] = useState(15);
     const [search, setSearch] = useState("");
+    const [deleteList, setDeleteList] = useState("");
 
     useEffect(() => {
         const response = dbData.getalljuornaldiscription(setJournal)
@@ -35,7 +36,7 @@ export default function ListJournalDefination() {
         // getj()
     }, []);
     console.log('ffffff', journal )
-    const deleteJournal = (id) => {
+    const deleteJournal = (journalguid) => {
         try {
             Swal.fire({
                 title: 'Are you sure?',
@@ -46,15 +47,19 @@ export default function ListJournalDefination() {
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!'
             }).then(async (result) => {
+                // result = journal.find((x) => x.journalguid === journalguid);
                 if (result.isConfirmed) {
-                    // const result = await api.StockAdjustment.delete(id);
+                      result = dbData.deletejournaldefination(journalguid, setDeleteList);
+                     console.log({deleteList})
+        const response = dbData.getalljuornaldiscription(setJournal)
+
                     // // notifySuccess(result.sucessMessage)
                     // if (result.sucessMessage) {
                     //     const response = await api.StockAdjustment.load(page, limit, "", documentType)
                     //     console.log(response?.data)
                     //     const count = response.data.totalCount;
                     //     setPageCount(Math.ceil(count / limit));
-                    //     setBalanceAdj(response?.data?.data);
+                    //     isetBalanceAdj(response?.data?.data);
                     // }
                 }
             })
@@ -128,7 +133,7 @@ export default function ListJournalDefination() {
                                                             {!detail?.approvedBy && <>
                                                                 <Link to={`/editjournaldef/${detail.journalguid}`}><i className="ti-pencil btn-icon-append text-success" title="Edit" /></Link>
                                                                 {/* <Link to={`/stockreceiptview/${detail?.id}`}><i className="ti-trash btn-icon-append text-danger" title="Delete" /></Link> */}
-                                                                <i className="ti-trash btn-icon-append text-danger" onClick={() => deleteJournal(detail?.id)} title="Delete" />
+                                                                <i className="ti-trash btn-icon-append text-danger" onClick={() => deleteJournal(detail.journalguid)} title="Delete" />
                                                             </>}
                                                         </div>
                                                     </td>
