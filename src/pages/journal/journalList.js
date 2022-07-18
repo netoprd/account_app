@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
-import api from '../../utils/api';
 import moment from 'moment';
-import { BalanceAdjustmentType } from '../../utils/mesureenum';
 import Swal from 'sweetalert2';
-import Paginate from '../../components/paginate';
 import Limit from '../../components/limit';
-import { journals } from '../../utils/journaldemodata';
 import dbData from '../../accdb';
 
 function JournalList() {
     const [journal, setJournal] = useState([]);
+    const [deletel, setDeletel] = useState({});
     const [pageCount, setPageCount] = useState(0);
     const page = 1;
     const [limit, setLimit] = useState(15);
     const [search, setSearch] = useState("");
 
     useEffect(() => {
-        const response = dbData.getalljuornal(setJournal)
-        // console.log(response?.data)
-        // const count = response.totalCount;
-        // setPageCount(Math.ceil(count / limit));
-        // setJournal(response?.data)
+        const response = dbData.getalljuornal(callback)
+        function callback(r) {
+            console.log({ r })
+            if (r?.result?.length > 0) {
+                setJournal(r.result)
+            } else {
+                setJournal([])
+            }
+
+        }
     }, []);
+    console.log({ journal })
 
     const deleteJournal = (id) => {
         try {
@@ -36,15 +39,19 @@ function JournalList() {
                 confirmButtonText: 'Yes, delete it!'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    // const result = await api.StockAdjustment.delete(id);
-                    // // notifySuccess(result.sucessMessage)
-                    // if (result.sucessMessage) {
-                    //     const response = await api.StockAdjustment.load(page, limit, "", documentType)
-                    //     console.log(response?.data)
-                    //     const count = response.data.totalCount;
-                    //     setPageCount(Math.ceil(count / limit));
-                    //     setBalanceAdj(response?.data?.data);
-                    // }
+                    const result = dbData.deletejournal(id, setDeletel);
+
+                    const res = dbData.getalljuornal(callback)
+                    function callback(r) {
+                        console.log({ r })
+                        if (r?.result?.length > 0) {
+                            setJournal(r.result)
+                        } else {
+                            setJournal([])
+                        }
+
+                    }
+                    // alert(deletel.message)//remove all alert and add toaster:  NOTE DUE TO THE NATURE OF THE DB THE SUCCESS ALERT MIGHT COME SEVERAL TIMES. PLEASE HANDLE THE ISSUE OR LET ME KNOW IF YOU CANT
                 }
             })
         }
@@ -78,9 +85,9 @@ function JournalList() {
                                 <form className="mt-3">
                                     <div className="form-group col-md-6 mx-auto mt-3">
                                         <div className="input-group">
-                                            <input type="text" className="form-control form-control-sm" placeholder="Search Journal" aria-label="Recipient's username" 
+                                            <input type="text" className="form-control form-control-sm" placeholder="Search Journal" aria-label="Recipient's username"
                                             // onChange={e => searchAdj(e.target.value)}
-                                             />
+                                            />
                                         </div>
                                     </div>
                                 </form>
@@ -115,9 +122,9 @@ function JournalList() {
                                                         <div className="d-flex justify-content-between">
                                                             <Link to={`/viewjournal/${detail.guid}`}><i className="ti-eye btn-icon-append text-primary" title="view" /></Link>
                                                             {!detail?.approvedBy && <>
-                                                                <Link to={`/editjournal/${detail.id}`}><i className="ti-pencil btn-icon-append text-success" title="Edit" /></Link>
+                                                                <Link to={`/editjournal/${detail.guid}`}><i className="ti-pencil btn-icon-append text-success" title="Edit" /></Link>
                                                                 {/* <Link to={`/stockreceiptview/${detail?.id}`}><i className="ti-trash btn-icon-append text-danger" title="Delete" /></Link> */}
-                                                                <i className="ti-trash btn-icon-append text-danger" onClick={() => deleteJournal(detail?.id)} title="Delete" />
+                                                                <i className="ti-trash btn-icon-append text-danger" onClick={() => deleteJournal(detail?.guid)} title="Delete" />
                                                             </>}
                                                         </div>
                                                     </td>
@@ -138,6 +145,12 @@ function JournalList() {
                                         </tbody>
                                     </table>
                                 </div>
+                                {
+                                    journal?.length === 0 &&
+                                    <div className='row'>
+                                        <strong className='mx-auto mt-5 h3'>No Journal Record</strong>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
